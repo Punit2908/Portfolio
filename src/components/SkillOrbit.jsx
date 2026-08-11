@@ -223,6 +223,126 @@ SKILL ORBIT
 ============================================================
 */
 
+
+/*
+============================================================
+MOBILE LINEAR SKILL NETWORK
+============================================================
+*/
+
+function MobileSkillNetwork({
+  skills,
+  activeSkill,
+  setActiveSkill,
+}) {
+  return (
+    <div className="skill-mobile-network">
+      <div className="skill-mobile-aurora skill-mobile-aurora-one" />
+      <div className="skill-mobile-aurora skill-mobile-aurora-two" />
+
+      <div className="skill-mobile-line">
+        <span className="skill-mobile-line-dot" />
+      </div>
+
+      <div className="skill-mobile-items">
+        {skills.map((skill, index) => {
+          const Icon = skill.icon;
+          const side =
+            index % 2 === 0
+              ? "right"
+              : "left";
+
+          const active =
+            activeSkill === skill.id;
+
+          return (
+            <motion.article
+              key={skill.id}
+              initial={{
+                opacity: 0,
+                y: 24,
+                scale: 0.97,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+              }}
+              viewport={{
+                once: true,
+                amount: 0.25,
+              }}
+              transition={{
+                duration: 0.45,
+                delay: Math.min(index * 0.035, 0.2),
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              whileTap={{
+                scale: 0.985,
+              }}
+              onPointerEnter={() =>
+                setActiveSkill(skill.id)
+              }
+              onPointerLeave={() =>
+                setActiveSkill(null)
+              }
+              className={`skill-mobile-item skill-mobile-${side}`}
+              style={{
+                "--skill-color": skill.color,
+                "--branch-delay": `${index * 0.22}s`,
+              }}
+            >
+              <span className="skill-mobile-branch" />
+              <span
+                className={`skill-mobile-node ${
+                  active
+                    ? "skill-mobile-node-active"
+                    : ""
+                }`}
+              />
+
+              <div
+                className={`
+                  skill-orbit-card
+                  skill-mobile-card
+                  ${active ? "skill-orbit-card-active" : ""}
+                `}
+              >
+                <div className="skill-mobile-card-top">
+                  <span className="skill-mobile-number">
+                    {skill.number}
+                  </span>
+
+                  <span
+                    className="skill-mobile-icon"
+                    style={{
+                      color: skill.color,
+                    }}
+                  >
+                    <Icon size={16} />
+                  </span>
+                </div>
+
+                <div className="skill-mobile-category">
+                  {skill.category}
+                </div>
+
+                <div className="skill-mobile-title">
+                  {skill.title}
+                </div>
+
+                <div className="skill-mobile-description">
+                  {skill.description}
+                </div>
+              </div>
+            </motion.article>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function SkillOrbit() {
   const containerRef = useRef(null);
 
@@ -534,7 +654,7 @@ function SkillOrbit() {
             -translate-y-1/2
             rounded-full
             bg-[var(--accent)]
-            blur-[150px]
+            blur-[110px]
           "
         />
 
@@ -713,29 +833,19 @@ function SkillOrbit() {
           3D PARALLAX WORLD
           ================================================== */}
 
-      <motion.div
-        style={{
-          rotateX: useSpring(
-            useMotionValue(0),
-            {
-              stiffness: 50,
-              damping: 25,
-            }
-          ),
-          rotateY: useSpring(
-            useMotionValue(0),
-            {
-              stiffness: 50,
-              damping: 25,
-            }
-          ),
+      {!isMobile && (
+        <motion.div
+          style={{
+          rotateX: smoothY,
+          rotateY: smoothX,
           transformPerspective: 1400,
         }}
-        className="
-          absolute
-          inset-0
-        "
-      >
+          className="
+            skill-orbit-desktop-world
+            absolute
+            inset-0
+          "
+        >
 
         {/* ==================================================
             CONNECTION GRAPH
@@ -806,7 +916,20 @@ function SkillOrbit() {
           />
         ))}
 
-      </motion.div>
+        </motion.div>
+      )}
+
+      {/* ==================================================
+          MOBILE LINEAR NETWORK
+          ================================================== */}
+
+      <div className="block sm:hidden">
+        <MobileSkillNetwork
+          skills={skills}
+          activeSkill={activeSkill}
+          setActiveSkill={setActiveSkill}
+        />
+      </div>
 
 
       {/* ==================================================

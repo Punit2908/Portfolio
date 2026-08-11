@@ -479,18 +479,18 @@ html:not(.dark) .about-glass {
     );
 
   backdrop-filter:
-    blur(20px)
-    saturate(145%);
+    blur(10px)
+    saturate(125%);
 
   -webkit-backdrop-filter:
-    blur(20px)
-    saturate(145%);
+    blur(10px)
+    saturate(125%);
 
   box-shadow:
     inset 0 1px 0
-      rgba(255, 255, 255, 0.06),
-    0 18px 50px
-      rgba(0, 0, 0, 0.08);
+      rgba(255, 255, 255, 0.045),
+    0 12px 32px
+      rgba(0, 0, 0, 0.07);
 
   will-change:
     transform;
@@ -513,17 +513,17 @@ html:not(.dark) .about-glass {
     0 0 0 1px
       color-mix(
         in srgb,
-        var(--skill-color) 22%,
+        var(--skill-color) 18%,
         transparent
       ),
-    0 18px 65px
+    0 14px 42px
       color-mix(
         in srgb,
-        var(--skill-color) 16%,
+        var(--skill-color) 12%,
         transparent
       ),
     inset 0 1px 0
-      rgba(255, 255, 255, 0.1);
+      rgba(255, 255, 255, 0.08);
 }
 
 
@@ -541,9 +541,9 @@ html:not(.dark) .about-glass {
 
   box-shadow:
     inset 0 1px 0
-      rgba(255, 255, 255, 0.055),
-    0 20px 65px
-      rgba(0, 0, 0, 0.3);
+      rgba(255, 255, 255, 0.045),
+    0 14px 42px
+      rgba(0, 0, 0, 0.25);
 }
 
 
@@ -562,9 +562,9 @@ html:not(.dark) .skill-orbit-card {
 
   box-shadow:
     inset 0 1px 0
-      rgba(255, 255, 255, 0.9),
-    0 18px 50px
-      rgba(70, 45, 110, 0.07);
+      rgba(255, 255, 255, 0.85),
+    0 12px 34px
+      rgba(70, 45, 110, 0.055);
 }
 
 
@@ -580,12 +580,400 @@ html:not(.dark) .skill-orbit-card {
 
   .skill-orbit-card {
     backdrop-filter:
-      blur(15px)
-      saturate(135%);
+      blur(9px)
+      saturate(125%);
 
     -webkit-backdrop-filter:
-      blur(15px)
-      saturate(135%);
+      blur(9px)
+      saturate(125%);
+  }
+}
+
+
+
+
+/* =========================================================
+   MOBILE LINEAR SKILL NETWORK
+   ========================================================= */
+
+.skill-mobile-network {
+  position: relative;
+  min-height: 820px;
+  height: calc(100% - 100px);
+  margin-top: 78px;
+  padding: 0.5rem 0 4rem;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.skill-mobile-aurora {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 999px;
+  opacity: 0.16;
+  will-change: transform;
+  z-index: -2;
+}
+
+.skill-mobile-aurora-one {
+  width: 360px;
+  height: 360px;
+  left: -190px;
+  top: 12%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(168, 85, 247, 0.28) 0%,
+      rgba(96, 165, 250, 0.12) 35%,
+      transparent 72%
+    );
+  animation:
+    skill-mobile-aurora-one 13s ease-in-out infinite;
+}
+
+.skill-mobile-aurora-two {
+  width: 340px;
+  height: 340px;
+  right: -180px;
+  bottom: 4%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(34, 211, 238, 0.2) 0%,
+      rgba(236, 72, 153, 0.1) 38%,
+      transparent 72%
+    );
+  animation:
+    skill-mobile-aurora-two 16s ease-in-out infinite;
+}
+
+@keyframes skill-mobile-aurora-one {
+  0%,
+  100% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translate3d(95px, 55px, 0)
+      scale(1.15);
+  }
+}
+
+@keyframes skill-mobile-aurora-two {
+  0%,
+  100% {
+    transform:
+      translate3d(0, 0, 0)
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translate3d(-85px, -65px, 0)
+      scale(1.12);
+  }
+}
+
+
+/* Main vertical spine */
+
+.skill-mobile-line {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  transform: translateX(-50%);
+  overflow: hidden;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(
+        in srgb,
+        var(--accent) 48%,
+        transparent
+      ) 8%,
+      color-mix(
+        in srgb,
+        var(--accent) 24%,
+        transparent
+      ) 50%,
+      color-mix(
+        in srgb,
+        var(--accent) 48%,
+        transparent
+      ) 92%,
+      transparent
+    );
+  opacity: 0.7;
+}
+
+.skill-mobile-line::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(168, 85, 247, 0.9),
+      transparent
+    );
+  background-size: 100% 180px;
+  animation:
+    skill-mobile-line-flow 3.4s linear infinite;
+}
+
+.skill-mobile-line-dot {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 7px;
+  height: 7px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow:
+    0 0 12px var(--accent),
+    0 0 28px rgba(168, 85, 247, 0.45);
+  animation:
+    skill-mobile-line-dot 4.8s ease-in-out infinite;
+}
+
+@keyframes skill-mobile-line-flow {
+  from {
+    transform: translateY(-180px);
+  }
+
+  to {
+    transform: translateY(820px);
+  }
+}
+
+@keyframes skill-mobile-line-dot {
+  0%,
+  100% {
+    top: 4%;
+    opacity: 0.45;
+  }
+
+  50% {
+    top: 96%;
+    opacity: 1;
+  }
+}
+
+
+/* Cards */
+
+.skill-mobile-items {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.skill-mobile-item {
+  position: relative;
+  min-height: 102px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.skill-mobile-card {
+  position: relative;
+  width: 41%;
+  min-height: 84px;
+  padding: 0.8rem 0.9rem;
+  border-radius: 1rem;
+  transform: translateZ(0);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.045),
+    0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+.skill-mobile-right .skill-mobile-card {
+  margin-left: calc(50% + 8%);
+}
+
+.skill-mobile-left .skill-mobile-card {
+  margin-left: 1%;
+}
+
+.skill-mobile-item::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 8%;
+  height: 1px;
+  transform: translateY(-50%);
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--skill-color)
+    );
+  opacity: 0.6;
+  background-size: 200% 100%;
+  animation:
+    skill-mobile-branch-flow
+    2.8s linear infinite;
+  animation-delay: var(--branch-delay);
+}
+
+.skill-mobile-right::after {
+  left: 50%;
+}
+
+.skill-mobile-left::after {
+  right: 50%;
+  transform:
+    translateY(-50%)
+    rotate(180deg);
+}
+
+.skill-mobile-node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 8;
+  width: 8px;
+  height: 8px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--skill-color);
+  opacity: 0.7;
+  box-shadow:
+    0 0 10px var(--skill-color);
+  transition:
+    transform 220ms ease,
+    opacity 220ms ease;
+}
+
+.skill-mobile-node-active {
+  transform:
+    translate(-50%, -50%)
+    scale(1.45);
+  opacity: 1;
+  box-shadow:
+    0 0 12px var(--skill-color),
+    0 0 24px var(--skill-color);
+}
+
+@keyframes skill-mobile-branch-flow {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: -100% 0;
+  }
+}
+
+.skill-mobile-card::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  border-radius: 999px;
+  background: var(--skill-color);
+  box-shadow:
+    0 0 9px var(--skill-color);
+  opacity: 0.7;
+}
+
+.skill-mobile-right .skill-mobile-card::before {
+  left: 0;
+}
+
+.skill-mobile-left .skill-mobile-card::before {
+  right: 0;
+}
+
+.skill-mobile-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.skill-mobile-number {
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+}
+
+.skill-mobile-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--skill-color) 30%,
+      var(--border)
+    );
+  border-radius: 8px;
+  background:
+    color-mix(
+      in srgb,
+      var(--skill-color) 5%,
+      var(--background)
+    );
+}
+
+.skill-mobile-category {
+  margin-top: 0.45rem;
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--skill-color);
+  opacity: 0.78;
+}
+
+.skill-mobile-title {
+  margin-top: 0.15rem;
+  font-size: 0.95rem;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+
+.skill-mobile-description {
+  margin-top: 0.3rem;
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+
+/* Mobile only, so desktop keeps the original orbit */
+
+@media (max-width: 640px) {
+  .skill-orbit-container {
+    height: 920px;
+    border-radius: 2rem;
+  }
+
+  .skill-mobile-network {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-mobile-aurora-one,
+  .skill-mobile-aurora-two,
+  .skill-mobile-line::before,
+  .skill-mobile-line-dot,
+  .skill-mobile-item::after {
+    animation: none;
   }
 }
 
