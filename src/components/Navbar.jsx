@@ -26,6 +26,10 @@ const navLinks = [
     href: "#projects",
   },
   {
+    name: "Experience",
+    href: "#experience",
+  },
+  {
     name: "Contact",
     href: "#contact",
   },
@@ -33,11 +37,89 @@ const navLinks = [
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   /*
-   * --------------------------------------------------
-   * Close mobile menu when switching to desktop
-   * --------------------------------------------------
+   * ==================================================
+   * ACTIVE SECTION + SCROLL PROGRESS
+   * ==================================================
+   */
+
+  useEffect(() => {
+    const sections = navLinks
+      .map((link) => document.querySelector(link.href))
+      .filter(Boolean);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSections = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) =>
+              b.intersectionRatio - a.intersectionRatio
+          );
+
+        if (visibleSections.length > 0) {
+          setActiveSection(
+            visibleSections[0].target.id
+          );
+        }
+      },
+      {
+        rootMargin: "-20% 0px -60% 0px",
+        threshold: [0.1, 0.25, 0.5, 0.75],
+      }
+    );
+
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const documentHeight =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
+
+      if (documentHeight <= 0) {
+        setScrollProgress(0);
+        return;
+      }
+
+      setScrollProgress(
+        Math.min(
+          100,
+          Math.max(
+            0,
+            (scrollTop / documentHeight) * 100
+          )
+        )
+      );
+    };
+
+    handleScroll();
+
+    window.addEventListener(
+      "scroll",
+      handleScroll,
+      { passive: true }
+    );
+
+    return () => {
+      observer.disconnect();
+
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
+    };
+  }, []);
+
+  /*
+   * ==================================================
+   * CLOSE MOBILE MENU ON DESKTOP
+   * ==================================================
    */
 
   useEffect(() => {
@@ -47,17 +129,23 @@ function Navbar() {
       }
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener(
+      "resize",
+      handleResize
+    );
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener(
+        "resize",
+        handleResize
+      );
     };
   }, []);
 
   /*
-   * --------------------------------------------------
-   * Prevent background scrolling when mobile menu opens
-   * --------------------------------------------------
+   * ==================================================
+   * LOCK BODY WHEN MOBILE MENU IS OPEN
+   * ==================================================
    */
 
   useEffect(() => {
@@ -71,9 +159,9 @@ function Navbar() {
   }, [isOpen]);
 
   /*
-   * --------------------------------------------------
-   * Escape closes mobile menu
-   * --------------------------------------------------
+   * ==================================================
+   * ESCAPE CLOSE
+   * ==================================================
    */
 
   useEffect(() => {
@@ -100,10 +188,15 @@ function Navbar() {
     setIsOpen(false);
   };
 
+  const handleNavClick = (id) => {
+    setActiveSection(id);
+    closeMenu();
+  };
+
   return (
     <>
       {/* ==================================================
-          MAIN NAVBAR
+          NAVBAR
           ================================================== */}
 
       <header
@@ -121,21 +214,16 @@ function Navbar() {
         "
       >
         <div className="mx-auto max-w-7xl">
-
-          {/* ==================================================
-              NEON BORDER WRAPPER
-              ================================================== */}
-
           <div className="relative">
 
             {/* Ambient glow */}
 
             <motion.div
               animate={{
-                opacity: [0.2, 0.4, 0.2],
+                opacity: [0.2, 0.38, 0.2],
               }}
               transition={{
-                duration: 3,
+                duration: 3.5,
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
@@ -156,7 +244,7 @@ function Navbar() {
                 rotate: 360,
               }}
               transition={{
-                duration: 7,
+                duration: 8,
                 repeat: Infinity,
                 ease: "linear",
               }}
@@ -225,7 +313,9 @@ function Navbar() {
 
               <a
                 href="#home"
-                onClick={closeMenu}
+                onClick={() =>
+                  handleNavClick("home")
+                }
                 className="
                   group
                   relative
@@ -235,11 +325,6 @@ function Navbar() {
                   outline-none
                 "
               >
-
-                {/* ------------------------------------------------
-                    Desktop avatar
-                    ------------------------------------------------ */}
-
                 <motion.img
                   src="/Profile-Pic.png"
                   alt="Punit"
@@ -258,18 +343,13 @@ function Navbar() {
                     ring-[var(--border)]
                     transition-all
                     duration-500
-                    ease-out
+                    md:block
                     group-hover:-translate-x-1
                     group-hover:scale-110
                     group-hover:ring-[var(--accent)]
                     group-hover:shadow-[0_0_16px_var(--accent)]
-                    md:block
                   "
                 />
-
-                {/* ------------------------------------------------
-                    Signature
-                    ------------------------------------------------ */}
 
                 <span
                   className="
@@ -286,7 +366,6 @@ function Navbar() {
                     text-[var(--foreground)]
                     transition-all
                     duration-500
-                    ease-out
                     group-hover:ml-9
                     group-hover:scale-[1.04]
                     sm:text-[32px]
@@ -328,12 +407,19 @@ function Navbar() {
                   md:flex
                 "
               >
-                {navLinks.map((link) => (
-                  <NavLink
-                    key={link.name}
-                    {...link}
-                  />
-                ))}
+                {navLinks.map(
+                  (link, index) => (
+                    <NavLink
+                      key={link.name}
+                      {...link}
+                      index={index}
+                      active={
+                        activeSection ===
+                        link.href.slice(1)
+                      }
+                    />
+                  )
+                )}
               </div>
 
               {/* ==================================================
@@ -390,6 +476,38 @@ function Navbar() {
                 >
                   <Menu size={20} />
                 </motion.button>
+              </div>
+
+              {/* ==================================================
+                  SCROLL PROGRESS
+                  ================================================== */}
+
+              <div
+                className="
+                  pointer-events-none
+                  absolute
+                  bottom-0
+                  left-[8%]
+                  right-[8%]
+                  h-px
+                  overflow-hidden
+                  rounded-full
+                "
+              >
+                <motion.div
+                  className="
+                    h-full
+                    origin-left
+                    bg-gradient-to-r
+                    from-[var(--accent)]
+                    via-cyan-400
+                    to-pink-400
+                  "
+                  style={{
+                    scaleX:
+                      scrollProgress / 100,
+                  }}
+                />
               </div>
 
             </nav>
@@ -467,9 +585,7 @@ function Navbar() {
               "
             >
 
-              {/* ==================================================
-                  PROFILE AREA
-                  ================================================== */}
+              {/* Profile */}
 
               <div
                 className="
@@ -484,8 +600,6 @@ function Navbar() {
                   pt-8
                 "
               >
-
-                {/* Avatar glow */}
 
                 <motion.div
                   animate={{
@@ -510,8 +624,6 @@ function Navbar() {
                     blur-3xl
                   "
                 />
-
-                {/* Close button */}
 
                 <motion.button
                   whileTap={{
@@ -542,8 +654,6 @@ function Navbar() {
                   <X size={20} />
                 </motion.button>
 
-                {/* Avatar */}
-
                 <motion.img
                   src="/Profile-Pic.png"
                   alt="Punit"
@@ -560,7 +670,12 @@ function Navbar() {
                   transition={{
                     duration: 0.6,
                     delay: 0.1,
-                    ease: [0.22, 1, 0.36, 1],
+                    ease: [
+                      0.22,
+                      1,
+                      0.36,
+                      1,
+                    ],
                   }}
                   className="
                     relative
@@ -574,10 +689,6 @@ function Navbar() {
                     shadow-[0_0_30px_var(--accent)]
                   "
                 />
-
-                {/* ==================================================
-                    MOBILE SIGNATURE
-                    ================================================== */}
 
                 <motion.div
                   initial={{
@@ -653,9 +764,7 @@ function Navbar() {
                 </span>
               </div>
 
-              {/* ==================================================
-                  MOBILE LINKS
-                  ================================================== */}
+              {/* Mobile links */}
 
               <nav
                 className="
@@ -674,15 +783,21 @@ function Navbar() {
                       key={link.name}
                       {...link}
                       index={index}
-                      onClick={closeMenu}
+                      active={
+                        activeSection ===
+                        link.href.slice(1)
+                      }
+                      onClick={() =>
+                        handleNavClick(
+                          link.href.slice(1)
+                        )
+                      }
                     />
                   )
                 )}
               </nav>
 
-              {/* ==================================================
-                  FOOTER
-                  ================================================== */}
+              {/* Footer */}
 
               <div
                 className="
@@ -693,7 +808,9 @@ function Navbar() {
               >
                 <a
                   href="#contact"
-                  onClick={closeMenu}
+                  onClick={() =>
+                    handleNavClick("contact")
+                  }
                   className="
                     group
                     flex
@@ -729,7 +846,6 @@ function Navbar() {
                   />
                 </a>
               </div>
-
             </motion.aside>
           </>
         )}
@@ -742,11 +858,16 @@ function Navbar() {
    DESKTOP NAV LINK
    ============================================================ */
 
-function NavLink({ name, href }) {
+function NavLink({
+  name,
+  href,
+  index,
+  active,
+}) {
   return (
     <a
       href={href}
-      className="
+      className={`
         group
         relative
         rounded-full
@@ -754,31 +875,78 @@ function NavLink({ name, href }) {
         py-2
         text-sm
         font-medium
-        text-[var(--muted)]
         transition-colors
         duration-300
-        hover:text-[var(--foreground)]
-      "
+        ${
+          active
+            ? "text-[var(--foreground)]"
+            : "text-[var(--muted)]"
+        }
+      `}
     >
-      <span className="relative z-10">
+      <span className="relative z-10 flex items-center gap-2">
+        <span
+          className={`
+            text-[7px]
+            font-mono
+            tracking-[0.12em]
+            transition-all
+            duration-300
+            ${
+              active
+                ? "text-[var(--accent)] opacity-100"
+                : "opacity-0 group-hover:opacity-60"
+            }
+          `}
+        >
+          {String(index + 1).padStart(2, "0")}
+        </span>
+
         {name}
       </span>
 
+      {/* Hover background */}
+
       <span
-        className="
+        className={`
           absolute
           inset-0
           -z-0
-          scale-75
           rounded-full
           bg-[var(--accent)]/10
-          opacity-0
           transition-all
           duration-300
-          group-hover:scale-100
-          group-hover:opacity-100
-        "
+          ${
+            active
+              ? "scale-100 opacity-100"
+              : "scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100"
+          }
+        `}
       />
+
+      {/* Active indicator */}
+
+      {active && (
+        <motion.span
+          layoutId="navbar-active-indicator"
+          className="
+            absolute
+            bottom-0
+            left-1/2
+            h-[2px]
+            w-4
+            -translate-x-1/2
+            rounded-full
+            bg-[var(--accent)]
+            shadow-[0_0_10px_var(--accent)]
+          "
+          transition={{
+            type: "spring",
+            stiffness: 400,
+            damping: 30,
+          }}
+        />
+      )}
     </a>
   );
 }
@@ -791,6 +959,7 @@ function MobileNavLink({
   name,
   href,
   index,
+  active,
   onClick,
 }) {
   return (
@@ -810,38 +979,70 @@ function MobileNavLink({
         duration: 0.35,
         ease: "easeOut",
       }}
-      className="
+      className={`
         group
+        relative
         flex
         items-center
         justify-between
+        overflow-hidden
         rounded-2xl
         px-5
         py-4
         text-lg
         font-medium
-        text-[var(--muted)]
         transition-all
         duration-300
-        hover:bg-[var(--accent)]/10
-        hover:text-[var(--foreground)]
-      "
+        ${
+          active
+            ? "bg-[var(--accent)]/10 text-[var(--foreground)]"
+            : "text-[var(--muted)] hover:bg-[var(--accent)]/10 hover:text-[var(--foreground)]"
+        }
+      `}
     >
-      <span>
+      <span className="relative z-10 flex items-center gap-3">
+        <span
+          className="
+            text-[8px]
+            font-mono
+            tracking-[0.18em]
+            text-[var(--accent)]
+            opacity-60
+          "
+        >
+          {String(index + 1).padStart(2, "0")}
+        </span>
+
         {name}
       </span>
 
       <ArrowUpRight
         size={18}
-        className="
-          opacity-0
+        className={`
           transition-all
           duration-300
-          group-hover:translate-x-1
-          group-hover:-translate-y-1
-          group-hover:opacity-100
-        "
+          ${
+            active
+              ? "translate-x-0 -translate-y-0 opacity-100"
+              : "opacity-0 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:opacity-100"
+          }
+        `}
       />
+
+      {active && (
+        <motion.span
+          layoutId="mobile-active-indicator"
+          className="
+            absolute
+            bottom-0
+            left-0
+            h-full
+            w-[2px]
+            bg-[var(--accent)]
+            shadow-[0_0_12px_var(--accent)]
+          "
+        />
+      )}
     </motion.a>
   );
 }
