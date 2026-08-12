@@ -1842,27 +1842,43 @@ html:not(.dark) .skill-orbit-card {
   display: none;
 }
 
+
+/* =========================================================
+   DESKTOP SCROLL STAGE
+   ========================================================= */
+
 .project-scroll-stage {
   position: relative;
-  height: 92vh;
-  min-height: 680px;
+
+  height: 96vh;
+  min-height: 700px;
 }
 
 .project-sticky-card {
   position: sticky;
-  top: 12vh;
+
+  top: 11vh;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
-  height: 76vh;
-  min-height: 560px;
+  height: 78vh;
+  min-height: 570px;
 
-  perspective: 1200px;
+  perspective: 1400px;
 
-  will-change: transform, opacity;
+  will-change:
+    transform,
+    opacity,
+    filter;
 }
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
 
 .project-card {
   --project-color: var(--accent);
@@ -1870,24 +1886,35 @@ html:not(.dark) .skill-orbit-card {
   position: relative;
 
   width: min(1080px, 100%);
-  min-height: 570px;
+
+  min-height: 590px;
 
   overflow: hidden;
 
-  border: 1px solid var(--border);
+  border:
+    1px solid
+    var(--border);
+
   border-radius: 2rem;
 
   background:
     linear-gradient(
       135deg,
-      color-mix(in srgb, var(--project-color) 5%, var(--surface)),
+      color-mix(
+        in srgb,
+        var(--project-color) 5%,
+        var(--surface)
+      ),
       var(--surface)
     );
 
   box-shadow:
-    0 30px 100px rgba(0, 0, 0, 0.18);
+    0 30px 100px
+    rgba(0, 0, 0, 0.18);
 
   transform-style: preserve-3d;
+
+  isolation: isolate;
 
   transition:
     border-color 350ms ease,
@@ -1897,59 +1924,173 @@ html:not(.dark) .skill-orbit-card {
   will-change: transform;
 }
 
-.project-card:hover {
-  border-color:
-    color-mix(in srgb, var(--project-color) 55%, var(--border));
 
-  box-shadow:
-    0 35px 110px
-    color-mix(
-      in srgb,
-      var(--project-color) 12%,
-      transparent
-    );
+/* =========================================================
+   PROJECT COLORS
+   ========================================================= */
+
+.project-card-rose,
+.project-preview-rose {
+  --project-color: #fb7185;
 }
+
+.project-card-red,
+.project-preview-red {
+  --project-color: #f87171;
+}
+
+.project-card-cyan,
+.project-preview-cyan {
+  --project-color: #22d3ee;
+}
+
+.project-card-violet,
+.project-preview-violet {
+  --project-color: #a78bfa;
+}
+
+.project-card-green,
+.project-preview-green {
+  --project-color: #4ade80;
+}
+
+
+/* =========================================================
+   CURSOR GLOW
+   ========================================================= */
+
+.project-cursor-glow {
+  position: absolute;
+
+  z-index: -1;
+
+  width: 420px;
+  height: 420px;
+
+  left:
+    calc(
+      var(--cursor-x) - 210px
+    );
+
+  top:
+    calc(
+      var(--cursor-y) - 210px
+    );
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      color-mix(
+        in srgb,
+        var(--project-color) 16%,
+        transparent
+      )
+      0%,
+      transparent 68%
+    );
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  transition:
+    opacity 400ms ease;
+
+  will-change:
+    left,
+    top;
+}
+
+.project-card:hover
+.project-cursor-glow {
+  opacity: 1;
+}
+
+
+/* =========================================================
+   MOVING BORDER
+   ========================================================= */
 
 .project-card-border {
   position: absolute;
+
   inset: 0;
+
+  z-index: 10;
 
   pointer-events: none;
 
   border-radius: inherit;
 
+  padding: 1px;
+
   background:
-    linear-gradient(
-      120deg,
-      transparent 20%,
+    conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 35deg,
       color-mix(
         in srgb,
-        var(--project-color) 60%,
+        var(--project-color) 15%,
         transparent
-      ),
-      transparent 80%
+      )
+      55deg,
+      color-mix(
+        in srgb,
+        var(--project-color) 85%,
+        transparent
+      )
+      80deg,
+      color-mix(
+        in srgb,
+        var(--project-color) 45%,
+        transparent
+      )
+      105deg,
+      transparent 145deg,
+      transparent 360deg
     );
 
-  background-size: 200% 100%;
+  -webkit-mask:
+    linear-gradient(#fff 0 0)
+      content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite: xor;
+
+  mask:
+    linear-gradient(#fff 0 0)
+      content-box,
+    linear-gradient(#fff 0 0);
+
+  mask-composite: exclude;
 
   opacity: 0;
 
+  animation:
+    project-border-spin
+    6s linear infinite;
+
   transition:
-    opacity 350ms ease,
-    background-position 700ms ease;
+    opacity 400ms ease;
 }
 
-.project-card:hover .project-card-border {
+.project-card:hover
+.project-card-border {
   opacity: 1;
-  background-position: 100% 0;
 }
+
 
 /* =========================================================
-   CARD HEADER
+   HEADER
    ========================================================= */
 
 .project-card-header {
   position: relative;
+
+  z-index: 20;
 
   display: grid;
 
@@ -1962,14 +2103,23 @@ html:not(.dark) .skill-orbit-card {
 
   gap: 1rem;
 
-  padding: 1.35rem 1.5rem;
+  padding:
+    1.25rem
+    1.5rem;
 
-  border-bottom: 1px solid var(--border);
+  border-bottom:
+    1px solid
+    var(--border);
 
   font-size: 10px;
+
   text-transform: uppercase;
-  letter-spacing: 0.22em;
-  color: var(--muted);
+
+  letter-spacing:
+    0.22em;
+
+  color:
+    var(--muted);
 }
 
 .project-card-index {
@@ -1981,7 +2131,8 @@ html:not(.dark) .skill-orbit-card {
   width: 34px;
   height: 34px;
 
-  border: 1px solid
+  border:
+    1px solid
     color-mix(
       in srgb,
       var(--project-color) 40%,
@@ -1990,15 +2141,26 @@ html:not(.dark) .skill-orbit-card {
 
   border-radius: 50%;
 
-  color: var(--project-color);
+  color:
+    var(--project-color);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--project-color) 5%,
+      transparent
+    );
 
   transition:
     transform 350ms ease,
     box-shadow 350ms ease;
 }
 
-.project-card:hover .project-card-index {
-  transform: rotate(12deg) scale(1.08);
+.project-card:hover
+.project-card-index {
+  transform:
+    rotate(12deg)
+    scale(1.08);
 
   box-shadow:
     0 0 25px
@@ -2010,19 +2172,23 @@ html:not(.dark) .skill-orbit-card {
 }
 
 .project-card-spark {
-  color: var(--project-color);
+  color:
+    var(--project-color);
 
   transition:
     transform 400ms ease,
     filter 400ms ease;
 }
 
-.project-card:hover .project-card-spark {
-  transform: rotate(45deg) scale(1.15);
+.project-card:hover
+.project-card-spark {
+  transform:
+    rotate(45deg)
+    scale(1.15);
 
   filter:
     drop-shadow(
-      0 0 8px
+      0 0 9px
       color-mix(
         in srgb,
         var(--project-color) 70%,
@@ -2031,60 +2197,48 @@ html:not(.dark) .skill-orbit-card {
     );
 }
 
+
 /* =========================================================
-   PROJECT PREVIEW
+   PREVIEW
    ========================================================= */
 
 .project-preview {
+  --project-color: var(--accent);
+
   position: relative;
 
-  height: 300px;
+  height: 320px;
 
   overflow: hidden;
 
-  border-bottom: 1px solid var(--border);
+  border-bottom:
+    1px solid
+    var(--border);
 
   background:
     linear-gradient(
       135deg,
-      color-mix(in srgb, var(--project-color) 9%, var(--surface)),
+      color-mix(
+        in srgb,
+        var(--project-color) 9%,
+        var(--surface)
+      ),
       var(--background)
     );
-
-  --project-color: var(--accent);
-}
-
-.project-preview-cyan {
-  --project-color: #22d3ee;
-}
-
-.project-preview-violet {
-  --project-color: #a78bfa;
-}
-
-.project-preview-rose {
-  --project-color: #fb7185;
-}
-
-.project-preview-green {
-  --project-color: #4ade80;
-}
-
-.project-preview-red {
-  --project-color: #f87171;
 }
 
 .project-preview-grid {
   position: absolute;
+
   inset: 0;
 
-  opacity: 0.45;
+  opacity: 0.35;
 
   background-image:
     linear-gradient(
       color-mix(
         in srgb,
-        var(--project-color) 9%,
+        var(--project-color) 8%,
         transparent
       )
       1px,
@@ -2094,14 +2248,15 @@ html:not(.dark) .skill-orbit-card {
       90deg,
       color-mix(
         in srgb,
-        var(--project-color) 9%,
+        var(--project-color) 8%,
         transparent
       )
       1px,
       transparent 1px
     );
 
-  background-size: 42px 42px;
+  background-size:
+    42px 42px;
 
   mask-image:
     linear-gradient(
@@ -2114,8 +2269,8 @@ html:not(.dark) .skill-orbit-card {
 .project-preview-glow {
   position: absolute;
 
-  width: 280px;
-  height: 280px;
+  width: 320px;
+  height: 320px;
 
   left: 35%;
   top: 5%;
@@ -2125,17 +2280,51 @@ html:not(.dark) .skill-orbit-card {
   background:
     var(--project-color);
 
-  opacity: 0.12;
+  opacity: 0.11;
 
-  filter: blur(90px);
+  filter:
+    blur(100px);
 
-  will-change: transform;
+  pointer-events: none;
+
+  will-change:
+    transform;
 }
+
+.project-preview-vignette {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 5;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 35%,
+      color-mix(
+        in srgb,
+        var(--background) 20%,
+        transparent
+      )
+      100%
+    );
+}
+
+
+/* =========================================================
+   PREVIEW TOP BAR
+   ========================================================= */
 
 .project-preview-top {
   position: absolute;
 
-  top: 1.25rem;
+  z-index: 20;
+
+  top: 1rem;
+
   left: 1.5rem;
   right: 1.5rem;
 
@@ -2153,13 +2342,17 @@ html:not(.dark) .skill-orbit-card {
     monospace;
 
   font-size: 9px;
-  letter-spacing: 0.16em;
 
-  color: var(--muted);
+  letter-spacing:
+    0.16em;
+
+  color:
+    var(--muted);
 }
 
 .project-preview-dots {
   display: flex;
+
   gap: 5px;
 }
 
@@ -2169,10 +2362,516 @@ html:not(.dark) .skill-orbit-card {
 
   border-radius: 50%;
 
-  background: var(--project-color);
+  background:
+    var(--project-color);
 
-  opacity: 0.6;
+  opacity: 0.65;
 }
+
+.project-preview-status-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background:
+    var(--project-color);
+
+  box-shadow:
+    0 0 12px
+    var(--project-color);
+
+  animation:
+    project-status-pulse
+    2s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   REAL IMAGE STAGE
+   ========================================================= */
+
+.project-preview-stage {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.project-browser {
+  position: relative;
+
+  width: min(73%, 780px);
+
+  margin-top: 1.1rem;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--project-color) 32%,
+      var(--border)
+    );
+
+  border-radius:
+    1rem;
+
+  background:
+    var(--surface);
+
+  box-shadow:
+    0 25px 70px
+    rgba(0, 0, 0, 0.22),
+
+    0 0 55px
+    color-mix(
+      in srgb,
+      var(--project-color) 10%,
+      transparent
+    );
+
+  transform:
+    translateZ(35px);
+
+  transition:
+    transform 500ms
+    cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    ),
+
+    box-shadow 500ms ease;
+}
+
+.project-card:hover
+.project-browser {
+  transform:
+    translateZ(55px)
+    scale(1.015);
+
+  box-shadow:
+    0 30px 85px
+    rgba(0, 0, 0, 0.26),
+
+    0 0 70px
+    color-mix(
+      in srgb,
+      var(--project-color) 15%,
+      transparent
+    );
+}
+
+.project-browser-bar {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.8rem;
+
+  height: 28px;
+
+  padding:
+    0 0.7rem;
+
+  border-bottom:
+    1px solid
+    var(--border);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--surface) 92%,
+      var(--project-color)
+    );
+}
+
+.project-browser-dots {
+  display: flex;
+
+  gap: 4px;
+}
+
+.project-browser-dots span {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background:
+    var(--muted);
+
+  opacity: 0.7;
+}
+
+.project-browser-address {
+  flex: 1;
+
+  display: flex;
+
+  justify-content: center;
+
+  padding:
+    0.25rem
+    0.8rem;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    999px;
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+
+  font-size: 7px;
+
+  color:
+    var(--muted);
+}
+
+.project-browser-screen {
+  position: relative;
+
+  aspect-ratio:
+    16 / 9;
+
+  overflow: hidden;
+
+  background:
+    var(--background);
+}
+
+.project-main-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  object-position:
+    center top;
+
+  transform:
+    scale(1.015);
+
+  transition:
+    transform 700ms
+    cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+
+  will-change:
+    transform;
+}
+
+.project-card:hover
+.project-main-image {
+  transform:
+    scale(1.055);
+}
+
+.project-image-shine {
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 25%,
+      color-mix(
+        in srgb,
+        white 10%,
+        transparent
+      )
+      45%,
+      transparent 60%
+    );
+
+  transform:
+    translateX(-120%);
+
+  transition:
+    transform 900ms
+    ease;
+}
+
+.project-card:hover
+.project-image-shine {
+  transform:
+    translateX(120%);
+}
+
+
+/* =========================================================
+   PHONE PREVIEW
+   ========================================================= */
+
+.project-phone-preview {
+  position: absolute;
+
+  z-index: 15;
+
+  right: 7%;
+
+  bottom: 8%;
+
+  width: 115px;
+
+  aspect-ratio:
+    9 / 18;
+
+  overflow: hidden;
+
+  border:
+    3px solid
+    color-mix(
+      in srgb,
+      var(--surface) 85%,
+      var(--project-color)
+    );
+
+  border-radius:
+    1.1rem;
+
+  background:
+    var(--background);
+
+  box-shadow:
+    0 20px 50px
+    rgba(0, 0, 0, 0.35),
+
+    0 0 35px
+    color-mix(
+      in srgb,
+      var(--project-color) 18%,
+      transparent
+    );
+
+  transform:
+    rotate(5deg)
+    translateZ(70px);
+
+  transition:
+    transform 500ms
+    cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+}
+
+.project-card:hover
+.project-phone-preview {
+  transform:
+    rotate(1deg)
+    translateY(-7px)
+    translateZ(95px)
+    scale(1.04);
+}
+
+.project-phone-preview img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  object-position:
+    top center;
+}
+
+.project-phone-notch {
+  position: absolute;
+
+  z-index: 5;
+
+  left: 50%;
+  top: 4px;
+
+  width: 34px;
+  height: 8px;
+
+  transform:
+    translateX(-50%);
+
+  border-radius:
+    999px;
+
+  background:
+    #09090b;
+}
+
+.project-phone-glass {
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      125deg,
+      rgba(255,255,255,0.13),
+      transparent 30%,
+      transparent 70%,
+      rgba(255,255,255,0.05)
+    );
+}
+
+
+/* =========================================================
+   SECONDARY IMAGES
+   ========================================================= */
+
+.project-secondary-previews {
+  position: absolute;
+
+  z-index: 12;
+
+  left: 5%;
+
+  bottom: 8%;
+
+  display: flex;
+
+  gap: 0.5rem;
+
+  transform:
+    translateZ(45px);
+}
+
+.project-secondary-image {
+  width: 92px;
+
+  aspect-ratio:
+    16 / 10;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    color-mix(
+      in srgb,
+      var(--project-color) 35%,
+      var(--border)
+    );
+
+  border-radius:
+    0.65rem;
+
+  background:
+    var(--surface);
+
+  box-shadow:
+    0 12px 30px
+    rgba(0, 0, 0, 0.25);
+
+  transition:
+    transform 350ms ease,
+    border-color 350ms ease;
+}
+
+.project-secondary-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.project-secondary-1 {
+  transform:
+    translateY(12px)
+    rotate(-4deg);
+}
+
+.project-secondary-0 {
+  transform:
+    rotate(3deg);
+}
+
+.project-card:hover
+.project-secondary-0 {
+  transform:
+    translateY(-5px)
+    rotate(-2deg)
+    scale(1.04);
+}
+
+.project-card:hover
+.project-secondary-1 {
+  transform:
+    translateY(5px)
+    rotate(3deg)
+    scale(1.04);
+}
+
+
+/* =========================================================
+   PROJECT NUMBER
+   ========================================================= */
+
+.project-image-number {
+  position: absolute;
+
+  z-index: 18;
+
+  left: 50%;
+
+  bottom: 1.25rem;
+
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 0.5rem;
+
+  transform:
+    translateX(-50%);
+
+  pointer-events: none;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    0.25em;
+
+  font-size: 8px;
+
+  color:
+    var(--muted);
+}
+
+.project-image-number strong {
+  font-size: 12px;
+
+  color:
+    var(--project-color);
+}
+
+
+/* =========================================================
+   FALLBACK PREVIEW
+   ========================================================= */
 
 .project-preview-content {
   position: absolute;
@@ -2208,9 +2907,11 @@ html:not(.dark) .skill-orbit-card {
       var(--border)
     );
 
-  border-radius: 1.25rem;
+  border-radius:
+    1.25rem;
 
-  color: var(--project-color);
+  color:
+    var(--project-color);
 
   background:
     color-mix(
@@ -2226,36 +2927,52 @@ html:not(.dark) .skill-orbit-card {
       var(--project-color) 18%,
       transparent
     );
-
-  will-change: transform;
 }
 
 .project-preview-number {
   display: block;
 
-  margin-bottom: 0.6rem;
+  margin-bottom:
+    0.6rem;
 
   font-size: 9px;
 
-  letter-spacing: 0.28em;
+  letter-spacing:
+    0.28em;
 
-  text-transform: uppercase;
+  text-transform:
+    uppercase;
 
-  color: var(--project-color);
+  color:
+    var(--project-color);
 }
 
 .project-preview-content h3 {
   margin: 0;
 
-  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-size:
+    clamp(
+      1.5rem,
+      3vw,
+      2.4rem
+    );
 
-  font-weight: 600;
+  font-weight:
+    600;
 
-  letter-spacing: -0.04em;
+  letter-spacing:
+    -0.04em;
 }
+
+
+/* =========================================================
+   DECORATIVE LINES
+   ========================================================= */
 
 .project-preview-line {
   position: absolute;
+
+  z-index: 8;
 
   height: 1px;
 
@@ -2267,9 +2984,11 @@ html:not(.dark) .skill-orbit-card {
       transparent
     );
 
-  opacity: 0.35;
+  opacity:
+    0.25;
 
-  transform-origin: left;
+  transform-origin:
+    left;
 }
 
 .project-preview-line-one {
@@ -2278,7 +2997,8 @@ html:not(.dark) .skill-orbit-card {
   left: 5%;
   top: 52%;
 
-  transform: rotate(-8deg);
+  transform:
+    rotate(-8deg);
 }
 
 .project-preview-line-two {
@@ -2287,15 +3007,24 @@ html:not(.dark) .skill-orbit-card {
   right: 4%;
   top: 40%;
 
-  transform: rotate(12deg);
+  transform:
+    rotate(12deg);
 }
+
+
+/* =========================================================
+   BOTTOM META
+   ========================================================= */
 
 .project-preview-bottom {
   position: absolute;
 
+  z-index: 20;
+
   left: 1.5rem;
   right: 1.5rem;
-  bottom: 1.2rem;
+
+  bottom: 1.1rem;
 
   display: flex;
 
@@ -2304,21 +3033,31 @@ html:not(.dark) .skill-orbit-card {
 
   font-size: 9px;
 
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
+  text-transform:
+    uppercase;
 
-  color: var(--muted);
+  letter-spacing:
+    0.18em;
+
+  color:
+    var(--muted);
 }
 
 .project-preview-status {
-  color: var(--project-color);
+  color:
+    var(--project-color);
 }
+
 
 /* =========================================================
    CARD BODY
    ========================================================= */
 
 .project-card-body {
+  position: relative;
+
+  z-index: 20;
+
   display: grid;
 
   grid-template-columns:
@@ -2327,29 +3066,43 @@ html:not(.dark) .skill-orbit-card {
 
   gap: 2rem;
 
-  padding: 1.75rem 1.5rem;
+  padding:
+    1.7rem
+    1.5rem;
 }
 
 .project-card-title {
   margin: 0;
 
-  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-size:
+    clamp(
+      1.7rem,
+      3vw,
+      2.4rem
+    );
 
-  font-weight: 600;
+  font-weight:
+    600;
 
-  letter-spacing: -0.045em;
+  letter-spacing:
+    -0.045em;
 }
 
 .project-card-description {
-  max-width: 580px;
+  max-width:
+    580px;
 
-  margin-top: 0.75rem;
+  margin-top:
+    0.75rem;
 
-  font-size: 0.9rem;
+  font-size:
+    0.9rem;
 
-  line-height: 1.7;
+  line-height:
+    1.7;
 
-  color: var(--muted);
+  color:
+    var(--muted);
 }
 
 .project-card-tech {
@@ -2357,23 +3110,33 @@ html:not(.dark) .skill-orbit-card {
 
   flex-wrap: wrap;
 
-  align-content: flex-start;
+  align-content:
+    flex-start;
 
-  justify-content: flex-end;
+  justify-content:
+    flex-end;
 
-  gap: 0.5rem;
+  gap:
+    0.5rem;
 }
 
 .project-card-tech span {
-  padding: 0.45rem 0.7rem;
+  padding:
+    0.45rem
+    0.7rem;
 
-  border: 1px solid var(--border);
+  border:
+    1px solid
+    var(--border);
 
-  border-radius: 999px;
+  border-radius:
+    999px;
 
-  font-size: 10px;
+  font-size:
+    10px;
 
-  color: var(--muted);
+  color:
+    var(--muted);
 
   background:
     color-mix(
@@ -2385,27 +3148,43 @@ html:not(.dark) .skill-orbit-card {
   transition:
     transform 250ms ease,
     border-color 250ms ease,
-    color 250ms ease;
+    color 250ms ease,
+    box-shadow 250ms ease;
 }
 
 .project-card-tech span:hover {
-  transform: translateY(-2px);
+  transform:
+    translateY(-2px);
 
   border-color:
     color-mix(
       in srgb,
-      var(--project-color) 50%,
+      var(--project-color) 55%,
       var(--border)
     );
 
-  color: var(--project-color);
+  color:
+    var(--project-color);
+
+  box-shadow:
+    0 5px 20px
+    color-mix(
+      in srgb,
+      var(--project-color) 10%,
+      transparent
+    );
 }
 
+
 /* =========================================================
-   CARD FOOTER
+   FOOTER
    ========================================================= */
 
 .project-card-footer {
+  position: relative;
+
+  z-index: 20;
+
   display: flex;
 
   align-items: center;
@@ -2416,7 +3195,9 @@ html:not(.dark) .skill-orbit-card {
     1.5rem
     1.3rem;
 
-  border-top: 1px solid var(--border);
+  border-top:
+    1px solid
+    var(--border);
 }
 
 .project-card-counter {
@@ -2426,11 +3207,14 @@ html:not(.dark) .skill-orbit-card {
     Menlo,
     monospace;
 
-  font-size: 9px;
+  font-size:
+    9px;
 
-  color: var(--muted);
+  color:
+    var(--muted);
 
-  letter-spacing: 0.15em;
+  letter-spacing:
+    0.15em;
 }
 
 .project-card-links {
@@ -2438,7 +3222,8 @@ html:not(.dark) .skill-orbit-card {
 
   align-items: center;
 
-  gap: 0.75rem;
+  gap:
+    0.65rem;
 }
 
 .project-card-link {
@@ -2446,25 +3231,34 @@ html:not(.dark) .skill-orbit-card {
 
   align-items: center;
 
-  gap: 0.45rem;
+  gap:
+    0.45rem;
 
-  padding: 0.55rem 0.8rem;
+  padding:
+    0.55rem
+    0.8rem;
 
-  border: 1px solid var(--border);
+  border:
+    1px solid
+    var(--border);
 
-  border-radius: 999px;
+  border-radius:
+    999px;
 
-  font-size: 11px;
+  font-size:
+    11px;
 
   transition:
     transform 250ms ease,
     border-color 250ms ease,
     color 250ms ease,
-    background 250ms ease;
+    background 250ms ease,
+    box-shadow 250ms ease;
 }
 
 .project-card-link:hover {
-  transform: translateY(-2px);
+  transform:
+    translateY(-2px);
 
   border-color:
     color-mix(
@@ -2473,7 +3267,8 @@ html:not(.dark) .skill-orbit-card {
       var(--border)
     );
 
-  color: var(--project-color);
+  color:
+    var(--project-color);
 
   background:
     color-mix(
@@ -2481,17 +3276,65 @@ html:not(.dark) .skill-orbit-card {
       var(--project-color) 6%,
       transparent
     );
+
+  box-shadow:
+    0 8px 25px
+    color-mix(
+      in srgb,
+      var(--project-color) 10%,
+      transparent
+    );
+}
+
+.project-github-icon {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 18px;
+  height: 18px;
+
+  border:
+    1px solid
+    currentColor;
+
+  border-radius:
+    50%;
+
+  font-size:
+    7px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    -0.05em;
+}
+
+.project-card-live {
+  background:
+    color-mix(
+      in srgb,
+      var(--project-color) 5%,
+      transparent
+    );
 }
 
 .project-card-building {
-  font-size: 10px;
+  font-size:
+    10px;
 
-  text-transform: uppercase;
+  text-transform:
+    uppercase;
 
-  letter-spacing: 0.16em;
+  letter-spacing:
+    0.16em;
 
-  color: var(--project-color);
+  color:
+    var(--project-color);
 }
+
 
 /* =========================================================
    MOBILE
@@ -2513,9 +3356,11 @@ html:not(.dark) .skill-orbit-card {
   .project-mobile-item {
     position: relative;
 
-    padding-left: 1.5rem;
+    padding-left:
+      1.5rem;
 
-    padding-bottom: 4rem;
+    padding-bottom:
+      4rem;
   }
 
   .project-mobile-item::before {
@@ -2524,6 +3369,7 @@ html:not(.dark) .skill-orbit-card {
     position: absolute;
 
     left: 6px;
+
     top: 0;
     bottom: 0;
 
@@ -2537,7 +3383,8 @@ html:not(.dark) .skill-orbit-card {
         transparent
       );
 
-    opacity: 0.6;
+    opacity:
+      0.6;
   }
 
   .project-mobile-node {
@@ -2546,7 +3393,7 @@ html:not(.dark) .skill-orbit-card {
     left: -4px;
     top: 1.5rem;
 
-    z-index: 5;
+    z-index: 30;
 
     display: flex;
 
@@ -2556,11 +3403,15 @@ html:not(.dark) .skill-orbit-card {
     width: 21px;
     height: 21px;
 
-    border: 1px solid var(--accent);
+    border:
+      1px solid
+      var(--accent);
 
-    border-radius: 50%;
+    border-radius:
+      50%;
 
-    background: var(--background);
+    background:
+      var(--background);
 
     box-shadow:
       0 0 20px
@@ -2569,91 +3420,240 @@ html:not(.dark) .skill-orbit-card {
         var(--accent) 35%,
         transparent
       );
+
+    transition:
+      box-shadow 300ms ease,
+      transform 300ms ease;
   }
 
   .project-mobile-node span {
-    font-size: 6px;
+    font-size:
+      6px;
 
-    color: var(--accent);
+    color:
+      var(--accent);
   }
 
   .project-card-mobile {
     width: 100%;
 
-    min-height: auto;
+    min-height:
+      auto;
 
-    border-radius: 1.5rem;
+    border-radius:
+      1.5rem;
 
-    transform: none !important;
+    transform:
+      none !important;
   }
 
-  .project-card-mobile .project-card-header {
-    padding: 1rem;
+  .project-card-mobile
+  .project-card-header {
+    padding:
+      1rem;
   }
 
-  .project-card-mobile .project-preview {
-    height: 230px;
+  .project-card-mobile
+  .project-preview {
+    height:
+      250px;
   }
 
-  .project-card-mobile .project-card-body {
-    display: block;
-
-    padding: 1.25rem 1rem;
+  .project-card-mobile
+  .project-preview-stage {
+    transform:
+      scale(0.92);
   }
 
-  .project-card-mobile .project-card-description {
-    font-size: 0.82rem;
+  .project-card-mobile
+  .project-browser {
+    width:
+      76%;
+
+    margin-top:
+      1rem;
   }
 
-  .project-card-mobile .project-card-tech {
-    justify-content: flex-start;
+  .project-card-mobile
+  .project-phone-preview {
+    right:
+      4%;
 
-    margin-top: 1rem;
+    bottom:
+      8%;
+
+    width:
+      82px;
   }
 
-  .project-card-mobile .project-card-footer {
+  .project-card-mobile
+  .project-secondary-previews {
+    display:
+      none;
+  }
+
+  .project-card-mobile
+  .project-card-body {
+    display:
+      block;
+
+    padding:
+      1.25rem
+      1rem;
+  }
+
+  .project-card-mobile
+  .project-card-description {
+    font-size:
+      0.82rem;
+  }
+
+  .project-card-mobile
+  .project-card-tech {
+    justify-content:
+      flex-start;
+
+    margin-top:
+      1rem;
+  }
+
+  .project-card-mobile
+  .project-card-footer {
     padding:
       0.9rem
       1rem
       1.1rem;
   }
 
-  .project-card-mobile .project-card-counter {
-    display: none;
+  .project-card-mobile
+  .project-card-counter {
+    display:
+      none;
   }
 
-  .project-card-mobile .project-card-links {
-    width: 100%;
+  .project-card-mobile
+  .project-card-links {
+    width:
+      100%;
 
-    justify-content: flex-end;
+    justify-content:
+      flex-end;
+  }
+
+  .project-card-mobile
+  .project-card-link {
+    padding:
+      0.5rem
+      0.7rem;
+
+    font-size:
+      10px;
+  }
+
+  .project-card-mobile
+  .project-preview-top {
+    left:
+      1rem;
+
+    right:
+      1rem;
+  }
+
+  .project-card-mobile
+  .project-preview-bottom {
+    left:
+      1rem;
+
+    right:
+      1rem;
+  }
+
+  .project-card-mobile
+  .project-image-number {
+    display:
+      none;
   }
 }
+
 
 /* =========================================================
    TABLET
    ========================================================= */
 
-@media (min-width: 768px) and (max-width: 1100px) {
+@media (
+  min-width: 768px
+) and (
+  max-width: 1100px
+) {
   .project-card {
-    min-height: 520px;
+    min-height:
+      540px;
   }
 
   .project-preview {
-    height: 260px;
+    height:
+      285px;
   }
 
   .project-card-body {
-    padding: 1.3rem;
+    padding:
+      1.3rem;
   }
 
   .project-scroll-stage {
-    min-height: 620px;
+    min-height:
+      650px;
   }
 
   .project-sticky-card {
-    min-height: 500px;
+    min-height:
+      520px;
+  }
+
+  .project-phone-preview {
+    width:
+      95px;
   }
 }
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes project-border-spin {
+  from {
+    transform:
+      rotate(0deg);
+  }
+
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+@keyframes project-status-pulse {
+  0%,
+  100% {
+    opacity:
+      0.45;
+
+    box-shadow:
+      0 0 5px
+      var(--project-color);
+  }
+
+  50% {
+    opacity:
+      1;
+
+    box-shadow:
+      0 0 14px
+      var(--project-color);
+  }
+}
+
 
 /* =========================================================
    REDUCED MOTION
@@ -2664,28 +3664,16 @@ html:not(.dark) .skill-orbit-card {
   .project-card *,
   .project-preview *,
   .project-mobile-item {
-    animation: none !important;
+    animation:
+      none !important;
 
-    transition-duration: 0.01ms !important;
+    transition-duration:
+      0.01ms !important;
   }
 
-  .project-preview-glow {
-    transform: none !important;
+  .project-preview-glow,
+  .project-cursor-glow {
+    transform:
+      none !important;
   }
-}
-
-.project-github-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 18px;
-  height: 18px;
-
-  border: 1px solid currentColor;
-  border-radius: 50%;
-
-  font-size: 7px;
-  font-weight: 700;
-  letter-spacing: -0.05em;
 }

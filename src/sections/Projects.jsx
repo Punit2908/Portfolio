@@ -3,46 +3,134 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
+
 import {
   ArrowDown,
   ArrowUpRight,
 } from "lucide-react";
+
 import { useRef } from "react";
 
 import SectionTitle from "../components/SectionTitle";
 import ProjectCard from "../components/ProjectCard";
+
 import projects from "../data/projects";
 
-function DesktopProject({ project, index }) {
+
+/*
+============================================================
+DESKTOP PROJECT
+============================================================
+*/
+
+function DesktopProject({
+  project,
+  index,
+}) {
   const ref = useRef(null);
 
-  const { scrollYProgress } = useScroll({
+  const {
+    scrollYProgress,
+  } = useScroll({
     target: ref,
-    offset: ["start end", "end start"],
+    offset: [
+      "start end",
+      "end start",
+    ],
   });
+
+  /*
+  ----------------------------------------------------------
+  Vertical movement
+  ----------------------------------------------------------
+  */
 
   const y = useTransform(
     scrollYProgress,
-    [0, 0.18, 0.75, 1],
-    [80, 0, 0, -80]
+    [0, 0.14, 0.52, 0.82, 1],
+    [110, 20, 0, -10, -100]
   );
+
+  /*
+  ----------------------------------------------------------
+  Depth scale
+  ----------------------------------------------------------
+  */
 
   const scale = useTransform(
     scrollYProgress,
-    [0, 0.18, 0.72, 1],
-    [0.88, 1, 0.96, 0.88]
+    [0, 0.12, 0.35, 0.7, 1],
+    [
+      0.84,
+      0.94,
+      1,
+      0.97,
+      0.86,
+    ]
   );
+
+  /*
+  ----------------------------------------------------------
+  Opacity
+  ----------------------------------------------------------
+  */
 
   const opacity = useTransform(
     scrollYProgress,
-    [0, 0.12, 0.78, 1],
-    [0, 1, 1, 0.25]
+    [0, 0.1, 0.2, 0.78, 1],
+    [
+      0,
+      0.7,
+      1,
+      1,
+      0.18,
+    ]
   );
+
+  /*
+  ----------------------------------------------------------
+  Rotation
+  ----------------------------------------------------------
+  */
 
   const rotate = useTransform(
     scrollYProgress,
-    [0, 0.18, 0.8, 1],
-    [index % 2 === 0 ? -4 : 4, 0, 0, index % 2 === 0 ? 2 : -2]
+    [0, 0.18, 0.45, 0.78, 1],
+    [
+      index % 2 === 0
+        ? -5
+        : 5,
+
+      index % 2 === 0
+        ? -2
+        : 2,
+
+      0,
+
+      0,
+
+      index % 2 === 0
+        ? 2
+        : -2,
+    ]
+  );
+
+  /*
+  ----------------------------------------------------------
+  Depth blur
+  ----------------------------------------------------------
+  */
+
+  const filter = useTransform(
+    scrollYProgress,
+    [0, 0.18, 0.35, 0.78, 1],
+    [
+      "blur(4px)",
+      "blur(1px)",
+      "blur(0px)",
+      "blur(0px)",
+      "blur(3px)",
+    ]
   );
 
   return (
@@ -56,6 +144,7 @@ function DesktopProject({ project, index }) {
           scale,
           opacity,
           rotate,
+          filter,
         }}
         className="project-sticky-card"
       >
@@ -68,32 +157,70 @@ function DesktopProject({ project, index }) {
   );
 }
 
-function MobileProject({ project, index }) {
+
+/*
+============================================================
+MOBILE PROJECT
+============================================================
+*/
+
+function MobileProject({
+  project,
+  index,
+}) {
   return (
     <motion.div
       initial={{
         opacity: 0,
         y: 70,
-        scale: 0.94,
+        scale: 0.92,
+        rotate: index % 2 === 0
+          ? -1.5
+          : 1.5,
       }}
       whileInView={{
         opacity: 1,
         y: 0,
         scale: 1,
+        rotate: 0,
       }}
       viewport={{
         once: false,
-        amount: 0.2,
+        amount: 0.18,
+        margin: "0px 0px -12% 0px",
       }}
       transition={{
-        duration: 0.7,
-        ease: [0.22, 1, 0.36, 1],
+        duration: 0.75,
+        ease: [
+          0.22,
+          1,
+          0.36,
+          1,
+        ],
       }}
       className="project-mobile-item"
     >
-      <div className="project-mobile-node">
-        <span>{project.number}</span>
-      </div>
+      <motion.div
+        className="project-mobile-node"
+        whileInView={{
+          scale: [
+            0.75,
+            1.18,
+            1,
+          ],
+        }}
+        viewport={{
+          once: false,
+          amount: 0.5,
+        }}
+        transition={{
+          duration: 0.55,
+        }}
+      >
+        <span>
+          {project.number}
+        </span>
+      </motion.div>
 
       <ProjectCard
         project={project}
@@ -103,6 +230,13 @@ function MobileProject({ project, index }) {
     </motion.div>
   );
 }
+
+
+/*
+============================================================
+PROJECTS
+============================================================
+*/
 
 function Projects() {
   return (
@@ -118,7 +252,7 @@ function Projects() {
       "
     >
       {/* ==================================================
-          AMBIENT BACKGROUND
+          AMBIENT AURORA
           ================================================== */}
 
       <motion.div
@@ -126,7 +260,7 @@ function Projects() {
           pointer-events-none
           absolute
           left-[-15%]
-          top-[10%]
+          top-[8%]
           h-[500px]
           w-[500px]
           rounded-full
@@ -135,9 +269,26 @@ function Projects() {
           blur-[160px]
         "
         animate={{
-          x: [0, 80, -40, 0],
-          y: [0, -60, 40, 0],
-          scale: [1, 1.1, 0.95, 1],
+          x: [
+            0,
+            80,
+            -40,
+            0,
+          ],
+
+          y: [
+            0,
+            -60,
+            40,
+            0,
+          ],
+
+          scale: [
+            1,
+            1.1,
+            0.95,
+            1,
+          ],
         }}
         transition={{
           duration: 20,
@@ -160,9 +311,26 @@ function Projects() {
           blur-[150px]
         "
         animate={{
-          x: [0, -70, 40, 0],
-          y: [0, 40, -50, 0],
-          scale: [1, 0.92, 1.08, 1],
+          x: [
+            0,
+            -70,
+            40,
+            0,
+          ],
+
+          y: [
+            0,
+            40,
+            -50,
+            0,
+          ],
+
+          scale: [
+            1,
+            0.92,
+            1.08,
+            1,
+          ],
         }}
         transition={{
           duration: 23,
@@ -171,13 +339,19 @@ function Projects() {
         }}
       />
 
-      <div className="
-        relative
-        z-10
-        mx-auto
-        w-full
-        max-w-7xl
-      ">
+      {/* ==================================================
+          CONTENT
+          ================================================== */}
+
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          w-full
+          max-w-7xl
+        "
+      >
         {/* ==================================================
             TITLE
             ================================================== */}
@@ -185,11 +359,15 @@ function Projects() {
         <SectionTitle
           eyebrow="Selected Work"
           title="Things I've actually built."
-          description="A collection of experiments, interfaces and full-stack projects built while learning how ideas become real products."
+          description="
+            A collection of experiments, interfaces
+            and full-stack projects built while learning
+            how ideas become real products.
+          "
         />
 
         {/* ==================================================
-            PROJECT COUNT
+            ARCHIVE BAR
             ================================================== */}
 
         <motion.div
@@ -205,6 +383,9 @@ function Projects() {
             once: false,
             amount: 0.5,
           }}
+          transition={{
+            duration: 0.6,
+          }}
           className="
             mt-10
             flex
@@ -219,39 +400,58 @@ function Projects() {
             text-[var(--muted)]
           "
         >
-          <span>Project Archive</span>
+          <span>
+            Project Archive
+          </span>
 
           <span>
-            {String(projects.length).padStart(2, "0")} Projects
+            {String(
+              projects.length
+            ).padStart(2, "0")}{" "}
+            Projects
           </span>
         </motion.div>
 
         {/* ==================================================
-            DESKTOP PROJECT STACK
+            DESKTOP
             ================================================== */}
 
-        <div className="projects-desktop mt-12">
-          {projects.map((project, index) => (
-            <DesktopProject
-              key={project.id}
-              project={project}
-              index={index}
-            />
-          ))}
+        <div
+          className="
+            projects-desktop
+            mt-12
+          "
+        >
+          {projects.map(
+            (project, index) => (
+              <DesktopProject
+                key={project.id}
+                project={project}
+                index={index}
+              />
+            )
+          )}
         </div>
 
         {/* ==================================================
-            MOBILE PROJECT TIMELINE
+            MOBILE
             ================================================== */}
 
-        <div className="projects-mobile mt-14">
-          {projects.map((project, index) => (
-            <MobileProject
-              key={project.id}
-              project={project}
-              index={index}
-            />
-          ))}
+        <div
+          className="
+            projects-mobile
+            mt-14
+          "
+        >
+          {projects.map(
+            (project, index) => (
+              <MobileProject
+                key={project.id}
+                project={project}
+                index={index}
+              />
+            )
+          )}
         </div>
 
         {/* ==================================================
@@ -288,24 +488,30 @@ function Projects() {
           "
         >
           <div>
-            <span className="
-              text-[10px]
-              uppercase
-              tracking-[0.25em]
-              text-[var(--muted)]
-            ">
+            <span
+              className="
+                text-[10px]
+                uppercase
+                tracking-[0.25em]
+                text-[var(--muted)]
+              "
+            >
               Still building
             </span>
 
-            <p className="
-              mt-2
-              max-w-lg
-              text-sm
-              leading-7
-              text-[var(--muted)]
-            ">
-              More projects are coming. Including a new version
-              of eLib, rebuilt properly from the ground up.
+            <p
+              className="
+                mt-2
+                max-w-lg
+                text-sm
+                leading-7
+                text-[var(--muted)]
+              "
+            >
+              More projects are coming.
+              Including a new version of
+              eLib, rebuilt properly from
+              the ground up.
             </p>
           </div>
 
@@ -338,22 +544,37 @@ function Projects() {
             SCROLL CUE
             ================================================== */}
 
-        <div className="
-          projects-scroll-cue
-          pointer-events-none
-          mt-12
-          flex
-          items-center
-          justify-center
-          gap-3
-          text-[10px]
-          uppercase
-          tracking-[0.3em]
-          text-[var(--muted)]
-        ">
-          <span>Scroll through the archive</span>
+        <div
+          className="
+            projects-scroll-cue
+            pointer-events-none
+            mt-12
+            flex
+            items-center
+            justify-center
+            gap-3
+            text-[10px]
+            uppercase
+            tracking-[0.3em]
+            text-[var(--muted)]
+          "
+        >
+          <span>
+            Scroll through the archive
+          </span>
 
-          <ArrowDown size={13} />
+          <motion.div
+            animate={{
+              y: [0, 4, 0],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <ArrowDown size={13} />
+          </motion.div>
         </div>
       </div>
     </section>
