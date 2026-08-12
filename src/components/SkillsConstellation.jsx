@@ -2,6 +2,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 
 import {
@@ -139,6 +140,7 @@ function ConnectionLine({
   end,
   active,
   color,
+  isMobile,
 }) {
   const materialRef = useRef(null);
 
@@ -168,30 +170,30 @@ function ConnectionLine({
     };
   }, [geometry]);
 
-  useFrame((state) => {
-    if (!materialRef.current) {
-      return;
-    }
+ useFrame((state) => {
+  if (!materialRef.current) {
+    return;
+  }
 
-    const pulse =
-      Math.sin(
-        state.clock.elapsedTime * 2.5
-      ) *
-      0.5 +
-      0.5;
+  const pulse =
+    Math.sin(
+      state.clock.elapsedTime * 2.5
+    ) *
+    0.5 +
+    0.5;
 
-    const targetOpacity =
-      active
-        ? 0.75 + pulse * 0.2
-        : 0.12;
+  const targetOpacity =
+    active
+      ? 0.75 + pulse * 0.2
+      : 0.12;
 
-    materialRef.current.opacity +=
-      (
-        targetOpacity -
-        materialRef.current.opacity
-      ) *
-      0.08;
-  });
+  materialRef.current.opacity +=
+    (
+      targetOpacity -
+      materialRef.current.opacity
+    ) *
+    0.08;
+});
 
   return (
     <line geometry={geometry}>
@@ -215,60 +217,45 @@ SKILL NODE
 function SkillNode({
   skill,
   active,
+  isMobile,
   onHover,
 }) {
   const groupRef = useRef(null);
   const ringRef = useRef(null);
 
-  useFrame((state) => {
-    if (!groupRef.current) {
-      return;
-    }
+useFrame((state) => {
+  if (!groupRef.current) {
+    return;
+  }
 
-    const time =
-      state.clock.elapsedTime;
+  const targetScale =
+    active ? 1.28 : 1;
 
-    const targetScale =
-      active ? 1.28 : 1;
+  groupRef.current.scale.x +=
+    (
+      targetScale -
+      groupRef.current.scale.x
+    ) *
+    0.08;
 
-    groupRef.current.scale.x +=
-      (
-        targetScale -
-        groupRef.current.scale.x
-      ) *
-      0.08;
+  groupRef.current.scale.y =
+    groupRef.current.scale.x;
 
-    groupRef.current.scale.y =
-      groupRef.current.scale.x;
-
+  /*
+   * Keep the floating animation,
+   * but make it extremely subtle.
+   */
+  if (!isMobile) {
     groupRef.current.position.y =
       skill.position[1] +
       Math.sin(
-        time * 0.8 +
-        skill.position[0]
+        state.clock.elapsedTime *
+          0.8 +
+          skill.position[0]
       ) *
       0.07;
-
-    if (ringRef.current) {
-      ringRef.current.rotation.z =
-        time *
-        (
-          active
-            ? 1.5
-            : 0.4
-        );
-
-      ringRef.current.scale.setScalar(
-        active
-          ? 1.35 +
-            Math.sin(
-              time * 3
-            ) *
-            0.08
-          : 1
-      );
-    }
-  });
+  }
+});
 
   return (
     <group
@@ -446,18 +433,41 @@ function ConstellationScene({
   );
 }
 
+function PerformanceSettings({
+  isMobile,
+}) {
+  const { gl } = useThree();
+
+  useEffect(() => {
+    gl.setPixelRatio(
+      isMobile
+        ? 1
+        : Math.min(
+            window.devicePixelRatio,
+            1.5
+          )
+    );
+  }, [gl, isMobile]);
+
+  return null;
+}
+
 /*
 ============================================================
 BACKGROUND PARTICLES
 ============================================================
 */
 
-function BackgroundParticles() {
+function BackgroundParticles({
+  isMobile,
+}) {
   const pointsRef = useRef(null);
 
-  const positions = useMemo(() => {
-    const count = 280;
+  const count = isMobile
+    ? 70
+    : 180;
 
+  const positions = useMemo(() => {
     const array =
       new Float32Array(
         count * 3
@@ -482,7 +492,7 @@ function BackgroundParticles() {
     }
 
     return array;
-  }, []);
+  }, [count]);
 
   useFrame((state) => {
     if (!pointsRef.current) {
@@ -491,14 +501,16 @@ function BackgroundParticles() {
 
     pointsRef.current.rotation.y =
       state.clock.elapsedTime *
-      0.015;
+      0.01;
 
-    pointsRef.current.rotation.z =
-      Math.sin(
-        state.clock.elapsedTime *
-        0.15
-      ) *
-      0.02;
+    if (!isMobile) {
+      pointsRef.current.rotation.z =
+        Math.sin(
+          state.clock.elapsedTime *
+            0.15
+        ) *
+        0.02;
+    }
   });
 
   return (
@@ -516,9 +528,17 @@ function BackgroundParticles() {
 
       <pointsMaterial
         color="#a855f7"
-        size={0.018}
+        size={
+          isMobile
+            ? 0.015
+            : 0.018
+        }
         transparent
-        opacity={0.32}
+        opacity={
+          isMobile
+            ? 0.22
+            : 0.32
+        }
         depthWrite={false}
         sizeAttenuation
       />
@@ -535,14 +555,18 @@ SCENE
 function Scene({
   activeSkill,
   setActiveSkill,
+  isMobile,
 }) {
   return (
     <>
-      <BackgroundParticles />
+      <BackgroundParticles
+        isMobile={isMobile}
+      />
 
       <ConstellationScene
         activeSkill={activeSkill}
         setActiveSkill={setActiveSkill}
+        isMobile={isMobile}
       />
     </>
   );
@@ -555,8 +579,42 @@ MAIN COMPONENT
 */
 
 export default function SkillsConstellation() {
-  const [activeSkill, setActiveSkill] =
-    React.useState(null);
+  const [
+    activeSkill,
+    setActiveSkill,
+  ] = React.useState(null);
+
+  const [
+    isMobile,
+    setIsMobile,
+  ] = React.useState(false);
+
+  useEffect(() => {
+    const mediaQuery =
+      window.matchMedia(
+        "(max-width: 767px)"
+      );
+
+    const updateMode = () => {
+      setIsMobile(
+        mediaQuery.matches
+      );
+    };
+
+    updateMode();
+
+    mediaQuery.addEventListener(
+      "change",
+      updateMode
+    );
+
+    return () => {
+      mediaQuery.removeEventListener(
+        "change",
+        updateMode
+      );
+    };
+  }, []);
 
   return (
     <div
@@ -568,21 +626,40 @@ export default function SkillsConstellation() {
     >
       <Canvas
         orthographic
+
         camera={{
           position: [0, 0, 5],
-          zoom: 100,
+          zoom: isMobile
+            ? 92
+            : 100,
         }}
-        dpr={[1, 1.5]}
+
+        dpr={
+          isMobile
+            ? [1, 1]
+            : [1, 1.5]
+        }
+
         performance={{
-          min: 0.6,
+          min: isMobile
+            ? 0.45
+            : 0.6,
         }}
+
         gl={{
           alpha: true,
-          antialias: true,
+
+          antialias:
+            !isMobile,
+
           powerPreference:
             "high-performance",
         }}
       >
+        <PerformanceSettings
+          isMobile={isMobile}
+        />
+
         <Scene
           activeSkill={
             activeSkill
@@ -590,18 +667,21 @@ export default function SkillsConstellation() {
           setActiveSkill={
             setActiveSkill
           }
+          isMobile={isMobile}
         />
 
-        <EffectComposer
-          multisampling={0}
-        >
-          <Bloom
-            intensity={1.2}
-            luminanceThreshold={0.25}
-            luminanceSmoothing={0.65}
-            mipmapBlur
-          />
-        </EffectComposer>
+        {!isMobile && (
+          <EffectComposer
+            multisampling={0}
+          >
+            <Bloom
+              intensity={1.2}
+              luminanceThreshold={0.25}
+              luminanceSmoothing={0.65}
+              mipmapBlur
+            />
+          </EffectComposer>
+        )}
       </Canvas>
     </div>
   );

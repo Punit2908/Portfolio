@@ -2,7 +2,11 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 
 import SectionTitle from "../components/SectionTitle";
-import SkillsConstellation from "../components/SkillsConstellation";
+import { lazy, Suspense } from "react";
+
+const SkillsConstellation = lazy(
+  () => import("../components/SkillsConstellation")
+);
 import SkillOrbit from "../components/SkillOrbit";
 
 function Skills() {
@@ -114,7 +118,16 @@ function Skills() {
             sm:min-h-[580px]
           "
         >
+        <Suspense
+          fallback={
+              <div className="skills-constellation-loader">
+              <span />
+              <p>Loading interactive stack...</p>
+              </div>
+            }
+        >
           <SkillsConstellation />
+        </Suspense>
 
           {/* ==================================================
               TOP LABEL

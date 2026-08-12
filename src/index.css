@@ -1831,6 +1831,69 @@ html:not(.dark) .skill-orbit-card {
 }
 
 /* =========================================================
+   SKILLS CONSTELLATION LOADER
+   ========================================================= */
+
+.skills-constellation-loader {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 5;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.8rem;
+
+  background:
+    var(--surface);
+}
+
+.skills-constellation-loader span {
+  width: 28px;
+  height: 28px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-top-color:
+    var(--accent);
+
+  border-radius: 50%;
+
+  animation:
+    constellation-loader-spin
+    0.8s linear infinite;
+}
+
+.skills-constellation-loader p {
+  margin: 0;
+
+  font-size: 9px;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    0.2em;
+
+  color:
+    var(--muted);
+}
+
+@keyframes constellation-loader-spin {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+/* =========================================================
    PROJECTS
    ========================================================= */
 
@@ -3675,5 +3738,10 @@ html:not(.dark) .skill-orbit-card {
   .project-cursor-glow {
     transform:
       none !important;
+  }
+}
+@media (max-width: 767px) {
+  .desktop-only-project-media {
+    display: none !important;
   }
 }

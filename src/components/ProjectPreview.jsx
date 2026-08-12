@@ -208,7 +208,7 @@ function ProjectPreview({ project }) {
               ================================================== */}
 
           {secondaryImages.length > 0 && (
-            <div className="project-secondary-previews">
+             <div className="project-secondary-previews desktop-only-project-media">
               {secondaryImages
                 .slice(0, 2)
                 .map((image, index) => (
