@@ -41,7 +41,7 @@ export const sendContactNotification = async ({
         </p>
         
         <p>
-          <strong>Subject:</strong> ${safesubject}
+          <strong>Subject:</strong> ${safeSubject}
         </p>
 
         <p>

@@ -2,15 +2,20 @@ import Contact from "../models/Contact.model.js";
 import {
   sendContactNotification,
 } from "../services/email.service.js";
+import { escapeHtml } from "../utils/escapeHtml.js";
 
 export const createContact = async (req, res, next) => {
   try {
-    const contact = await Contact.create({
+    const {
       name,
-     email,
-     subject,
-     message,
-    });
+      email,
+      subject,
+      message,
+    } = req.body;
+
+    const safeSubject = escapeHtml(
+      subject || "New Portfolio Contact"
+    );
 
     const contact = await Contact.create({
       name,
@@ -24,7 +29,7 @@ export const createContact = async (req, res, next) => {
       await sendContactNotification({
         name,
         email,
-        subject,
+        subject: safeSubject,
         message,
       });
     } catch (emailError) {
@@ -32,9 +37,11 @@ export const createContact = async (req, res, next) => {
         "⚠️ Contact email failed:",
         emailError.message
       );
+
+      return next(emailError);
     }
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Message sent successfully",
       data: {
