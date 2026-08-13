@@ -9,6 +9,8 @@ import { useState } from "react";
 
 import SectionTitle from "../components/SectionTitle";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function GithubIcon({ size = 17 }) {
   return (
     <svg
@@ -50,7 +52,19 @@ function LinkedinIcon({ size = 17 }) {
 }
 
 function Contact() {
-  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const [status, setStatus] = useState({
+    type: "",
+    message: "",
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const mouseX = useMotionValue(50);
   const mouseY = useMotionValue(50);
@@ -79,14 +93,90 @@ function Contact() {
     mouseY.set(y);
   };
 
-  const handleSubmit = (event) => {
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
+
+    // Remove old error once the user starts typing again
+    if (status.type === "error") {
+      setStatus({
+        type: "",
+        message: "",
+      });
+    }
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    setSubmitted(true);
+    if (isSubmitting) return;
 
-    setTimeout(() => {
-      setSubmitted(false);
-    }, 3000);
+    setIsSubmitting(true);
+
+    setStatus({
+      type: "",
+      message: "",
+    });
+
+    try {
+      const response = await fetch(
+        `${API_URL}/contact`,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+            "Unable to send your message."
+        );
+      }
+
+      setStatus({
+        type: "success",
+        message:
+          "Message sent successfully. I'll get back to you soon.",
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error(
+        "Contact form error:",
+        error
+      );
+
+      setStatus({
+        type: "error",
+        message:
+          error.message ||
+          "Something went wrong. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -212,14 +302,11 @@ function Contact() {
             <div className="contact-mouse-glow" />
 
             <div className="relative z-10 flex h-full flex-col">
-              {/* Status */}
 
               <div className="contact-status">
                 <span className="contact-status-dot" />
                 Available for opportunities
               </div>
-
-              {/* Main text */}
 
               <div className="mt-12">
                 <div className="contact-icon">
@@ -241,23 +328,23 @@ function Contact() {
 
               <div className="mt-auto pt-14">
                 <svg
-  className="contact-signature"
-  viewBox="0 0 360 110"
-  role="img"
-  aria-label="Punit"
->
-  <text
-    x="5"
-    y="78"
-    fontFamily="'Brush Script MT', 'Segoe Script', cursive"
-    fontSize="72"
-    fontStyle="italic"
-    fontWeight="400"
-    fill="currentColor"
-  >
-    Punit
-  </text>
-</svg>
+                  className="contact-signature"
+                  viewBox="0 0 360 110"
+                  role="img"
+                  aria-label="Punit"
+                >
+                  <text
+                    x="5"
+                    y="78"
+                    fontFamily="'Brush Script MT', 'Segoe Script', cursive"
+                    fontSize="72"
+                    fontStyle="italic"
+                    fontWeight="400"
+                    fill="currentColor"
+                  >
+                    Punit
+                  </text>
+                </svg>
 
                 <span className="contact-signature-line" />
 
@@ -282,6 +369,8 @@ function Contact() {
 
                 <a
                   href="https://www.linkedin.com/in/iampunitjangra/"
+                  target="_blank"
+                  rel="noreferrer"
                   aria-label="LinkedIn"
                 >
                   <LinkedinIcon size={17} />
@@ -334,8 +423,6 @@ function Contact() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            {/* Decorative grid */}
-
             <div className="contact-grid" />
 
             <div className="relative z-10">
@@ -370,6 +457,10 @@ function Contact() {
                       name="name"
                       type="text"
                       placeholder="Your name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      minLength={2}
+                      maxLength={50}
                       required
                     />
 
@@ -386,6 +477,8 @@ function Contact() {
                       name="email"
                       type="email"
                       placeholder="you@example.com"
+                      value={formData.email}
+                      onChange={handleChange}
                       required
                     />
 
@@ -405,6 +498,9 @@ function Contact() {
                     name="subject"
                     type="text"
                     placeholder="What are we building?"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    maxLength={100}
                   />
 
                   <span />
@@ -422,11 +518,37 @@ function Contact() {
                     name="message"
                     rows="6"
                     placeholder="Tell me a little about your idea..."
+                    value={formData.message}
+                    onChange={handleChange}
+                    minLength={10}
+                    maxLength={2000}
                     required
                   />
 
                   <span />
                 </div>
+
+                {/* Status */}
+
+                {status.message && (
+                  <motion.div
+                    initial={{
+                      opacity: 0,
+                      y: 8,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    className={`mt-5 ${
+                      status.type === "success"
+                        ? "text-emerald-400"
+                        : "text-red-400"
+                    }`}
+                  >
+                    {status.message}
+                  </motion.div>
+                )}
 
                 {/* Submit */}
 
@@ -439,29 +561,35 @@ function Contact() {
                   <motion.button
                     type="submit"
                     className="contact-submit"
-                    whileHover={{
-                      y: -2,
-                    }}
-                    whileTap={{
-                      scale: 0.97,
-                    }}
+                    disabled={isSubmitting}
+                    whileHover={
+                      !isSubmitting
+                        ? { y: -2 }
+                        : {}
+                    }
+                    whileTap={
+                      !isSubmitting
+                        ? { scale: 0.97 }
+                        : {}
+                    }
                   >
                     <span>
-                      {submitted
-                        ? "Message ready"
-                        : "Send message"}
+                      {isSubmitting
+                        ? "Sending..."
+                        : status.type === "success"
+                          ? "Message sent"
+                          : "Send message"}
                     </span>
 
                     <motion.span
                       animate={{
-                        x: submitted
-                          ? 3
-                          : 0,
+                        x:
+                          isSubmitting
+                            ? 0
+                            : 3,
                       }}
                     >
-                      <ArrowUpRight
-                        size={17}
-                      />
+                      <ArrowUpRight size={17} />
                     </motion.span>
                   </motion.button>
                 </div>
