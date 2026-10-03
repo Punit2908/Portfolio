@@ -21,27 +21,11 @@ function Hero() {
         md:pt-40
       "
     >
-      {/* ==================================================
-          INTERACTIVE SHADER HMR BACKGROUND
-          ================================================== */}
       <ShaderBackground />
-
-      {/* ==================================================
-          HERO CONTENT
-          ================================================== */}
 
       <div className="relative z-10 mx-auto w-full max-w-6xl">
         <div className="flex flex-col items-center text-center">
-
-          {/* ==================================================
-              ROLE SWITCHER
-              ================================================== */}
-
           <RoleSwitcher />
-
-          {/* ==================================================
-              MAIN HEADING
-              ================================================== */}
 
           <motion.h1
             initial={{
@@ -72,17 +56,12 @@ function Hero() {
               lg:text-8xl
             "
           >
-            Building digital
+            Punit Jangra
             <br />
-
             <span className="text-[var(--muted)]">
-              experiences that matter.
+              Full Stack &amp; MERN Developer.
             </span>
           </motion.h1>
-
-          {/* ==================================================
-              DESCRIPTION
-              ================================================== */}
 
           <motion.p
             initial={{
@@ -113,13 +92,10 @@ function Hero() {
               sm:leading-8
             "
           >
-            I build modern web applications using
-            React, Node.js, Express and MongoDB.
+            I build modern web applications with React, JavaScript, Node.js,
+            Express and MongoDB. Based in Haryana and available for web
+            development projects across Panipat, Kaithal and India.
           </motion.p>
-
-          {/* ==================================================
-              ACTION BUTTONS
-              ================================================== */}
 
           <motion.div
             initial={{
@@ -149,8 +125,6 @@ function Hero() {
               sm:flex-row
             "
           >
-            {/* Primary */}
-
             <a
               href="#projects"
               className="
@@ -181,8 +155,6 @@ function Hero() {
               />
             </a>
 
-            {/* Secondary */}
-
             <a
               href="#contact"
               className="
@@ -198,19 +170,10 @@ function Hero() {
               Contact Me
             </a>
           </motion.div>
-
         </div>
-
-        {/* ==================================================
-            DEVELOPER CENTERPIECE
-            ================================================== */}
 
         <DeveloperVisual />
       </div>
-
-      {/* ==================================================
-          SCROLL INDICATOR
-          ================================================== */}
 
       <motion.a
         href="#about"
