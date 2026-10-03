@@ -88,7 +88,7 @@ function ProjectCard({
   const githubUrl = project.github || null;
   const liveUrl = project.live || null;
 
-  const totalProjects = 5;
+  const totalProjects = 3;
 
   return (
     <motion.article
@@ -113,13 +113,9 @@ function ProjectCard({
             }
       }
     >
-      {/* Cursor-following glow */}
       <div className="project-cursor-glow" />
-
-      {/* Animated border */}
       <div className="project-card-border" />
 
-      {/* Header */}
       <div className="project-card-header">
         <div className="project-card-index">
           {project.number}
@@ -136,10 +132,8 @@ function ProjectCard({
         />
       </div>
 
-      {/* Main visual */}
       <ProjectPreview project={project} />
 
-      {/* Information */}
       <div className="project-card-body">
         <div>
           <h3 className="project-card-title">
@@ -160,7 +154,6 @@ function ProjectCard({
         </div>
       </div>
 
-      {/* Footer */}
       <div className="project-card-footer">
         <span className="project-card-counter">
           {String(index + 1).padStart(2, "0")} /{" "}
@@ -168,7 +161,6 @@ function ProjectCard({
         </span>
 
         <div className="project-card-links">
-          {/* GitHub */}
           {githubUrl && (
             <a
               href={githubUrl}
@@ -185,7 +177,6 @@ function ProjectCard({
             </a>
           )}
 
-          {/* Live */}
           {liveUrl && (
             <a
               href={liveUrl}
@@ -205,7 +196,6 @@ function ProjectCard({
             </a>
           )}
 
-          {/* Development */}
           {!githubUrl &&
             !liveUrl && (
               <span className="project-card-building">
