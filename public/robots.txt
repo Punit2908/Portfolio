@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Keep the private admin interface out of crawling.
+Disallow: /admin
+
+Sitemap: https://punitjangraportfolio.vercel.app/sitemap.xml
