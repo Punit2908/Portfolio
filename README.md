@@ -1,17 +1,59 @@
-# React + Vite
+# Punit Jangra | Full Stack & MERN Stack Developer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <a href="https://punitjangraportfolio.vercel.app/">
+    <img src="https://img.shields.io/badge/Portfolio-Punit%20Jangra-111827?style=for-the-badge" alt="Punit Jangra Portfolio">
+  </a>
+  <a href="https://github.com/Punit2908">
+    <img src="https://img.shields.io/badge/GitHub-Punit2908-111827?style=for-the-badge&logo=github" alt="Punit Jangra GitHub">
+  </a>
+</p>
 
-Currently, two official plugins are available:
+## About Punit Jangra
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Punit Jangra** is a **full stack web developer and MERN stack developer** from Haryana, India, focused on building modern, responsive and interactive web applications.
 
-## React Compiler
+I work with **React, JavaScript, Node.js, Express.js, MongoDB, HTML, CSS, Tailwind CSS and REST APIs**, with an interest in clean frontend experiences, reliable backend systems and practical full-stack products.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+I am available for web development projects across **Haryana, including Panipat and Kaithal, and remote projects across India**.
 
-## Expanding the ESLint configuration
+### Core Skills
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# Portfolio
+- **Frontend:** React, JavaScript, HTML, CSS, Tailwind CSS, Vite
+- **Backend:** Node.js, Express.js, REST APIs
+- **Database:** MongoDB, SQL
+- **Programming:** C++, Java, Python, JavaScript
+- **Other:** Git, GitHub, DSA, responsive web design and API integration
+
+## Featured Projects
+
+### Hartron Skill Center Kaithal
+Institutional website built with React and Vite for course discovery, admissions information, achievements and student resources.
+
+**Live:** https://hsckaithal.vercel.app/
+
+### muryoAnime
+Responsive anime discovery and streaming platform focused on browsing, featured content and a cinematic user experience.
+
+**Live:** https://muryoanime.xyz/
+
+### Galaxy Photography
+Responsive photography studio website designed around premium visuals, wedding storytelling, consultation and portfolio presentation.
+
+**Live:** https://www.galaxyphotography.in/
+
+## Regional Web Development
+
+For searches such as **web developer in Panipat**, **full stack developer in Panipat**, **MERN stack developer in Panipat**, **React developer in Haryana**, or **web developer in Kaithal**, this portfolio represents Punit Jangra's web development work and technical profile.
+
+Projects and client work can be delivered remotely across **Panipat, Kaithal, Haryana and India**.
+
+## Portfolio
+
+🌐 **Website:** https://punitjangraportfolio.vercel.app/
+
+🐙 **GitHub:** https://github.com/Punit2908
+
+---
+
+Built with React, Vite, Tailwind CSS and modern web technologies.
