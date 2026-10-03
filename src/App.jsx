@@ -3,6 +3,7 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 import About from "./sections/About";
 import Hero from "./sections/Hero";
+import WebDevelopment from "./sections/WebDevelopment";
 import Skills from "./sections/Skills";
 import Projects from "./sections/Projects";
 import Experience from "./sections/Experience";
@@ -22,14 +23,7 @@ function App() {
       localStorage.getItem("adminToken")
   );
 
-  /*
-   * ==========================================
-   * ADMIN AREA
-   * ==========================================
-   */
-
   if (isAdmin) {
-    // No token → show login
     if (!token) {
       return (
         <AdminLogin
@@ -40,7 +34,6 @@ function App() {
       );
     }
 
-    // Token → show dashboard
     return (
       <AdminDashboard
         token={token}
@@ -55,7 +48,6 @@ function App() {
     );
   }
 
-  // Public Portfolio
   return (
     <>
       <Navbar />
@@ -63,6 +55,7 @@ function App() {
       <main>
         <Hero />
         <About />
+        <WebDevelopment />
         <Skills />
         <Projects />
         <Experience />
