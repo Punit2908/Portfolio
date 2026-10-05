@@ -25,12 +25,31 @@ function WebDevelopment() {
           </h2>
 
           <p className="mt-6 text-lg leading-relaxed text-[var(--muted)]">
-            I'm Punit Jangra, a full stack and MERN stack developer building
-            responsive websites and web applications with React, JavaScript,
-            Node.js, Express.js and MongoDB. I work with clients and teams in
-            Haryana, including Panipat and Kaithal, as well as remote projects
-            across India.
+            I'm Punit Jangra, a MERN Stack and Full Stack Developer specializing
+            in React, JavaScript, Node.js, Express.js and MongoDB. I build
+            responsive websites, web applications and REST APIs for businesses,
+            institutions and personal projects across Haryana and India.
           </p>
+
+          <div className="mt-8 space-y-4 text-sm leading-7 text-[var(--muted)] sm:text-base">
+            <h3 className="text-xl font-semibold text-[var(--foreground)]">
+              MERN Stack development in Panipat, Samalkha and Sonipat
+            </h3>
+
+            <p>
+              I provide modern web development for clients in Panipat, Samalkha,
+              Sonipat and nearby areas of Haryana. My work combines React
+              frontend development with Node.js and Express.js backend
+              development, MongoDB databases and REST API integration.
+            </p>
+
+            <p>
+              Whether you need a responsive business website, a custom web
+              application, an API-driven project or a complete MERN Stack
+              solution, I focus on clean interfaces, practical functionality,
+              performance and maintainable code.
+            </p>
+          </div>
         </div>
 
         <div className="mt-12 grid gap-5 md:grid-cols-3">
@@ -66,8 +85,8 @@ function WebDevelopment() {
 
               <p className="mt-3 max-w-3xl text-sm leading-7 text-[var(--muted)] sm:text-base">
                 For businesses, institutions and personal projects in
-                Panipat, Kaithal and other parts of Haryana, I build modern
-                web experiences with a focus on responsive design, practical
+                Panipat, Samalkha, Sonipat, Kaithal and other parts of Haryana,
+                I build modern web experiences with a focus on responsive design, practical
                 functionality and maintainable code. Remote collaboration is
                 also available across India.
               </p>
