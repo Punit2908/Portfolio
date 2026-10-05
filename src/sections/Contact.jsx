@@ -359,7 +359,7 @@ function Contact() {
                 <a
                   href="https://github.com/Punit2908"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="me noreferrer"
                   aria-label="GitHub"
                 >
                   <GithubIcon size={17} />
@@ -370,7 +370,7 @@ function Contact() {
                 <a
                   href="https://www.linkedin.com/in/iampunitjangra/"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="me noreferrer"
                   aria-label="LinkedIn"
                 >
                   <LinkedinIcon size={17} />
