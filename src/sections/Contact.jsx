@@ -379,6 +379,16 @@ function Contact() {
                 </a>
 
                 <a
+                  href="https://www.instagram.com/punitjangra_/"
+                  target="_blank"
+                  rel="me noreferrer"
+                  aria-label="Instagram"
+                >
+                  <span>Instagram</span>
+                  <ArrowUpRight size={14} />
+                </a>
+
+                <a
                   href="mailto:punitjangra2742@gmail.com"
                   aria-label="Email"
                 >
