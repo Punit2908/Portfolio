@@ -6,7 +6,7 @@ const PROFILE_IMAGE = `${SITE_URL}/Profile-Pic.png`;
 export const SOCIAL_LINKS = {
   github: "https://github.com/Punit2908",
   linkedin: "https://www.linkedin.com/in/iampunitjangra/",
-  instagram: "https://www.instagram.com/punitjangra/",
+  instagram: "https://www.instagram.com/punitjangra_/",
 };
 
 const DEFAULT_KEYWORDS = [
@@ -202,6 +202,7 @@ export default function SEO({
             "Punit Jangra Developer",
             "Punit Jangra Web Developer",
             "Punit Jangra MERN Developer",
+            "punitjangra_",
           ],
           url: SITE_URL + "/",
           image: image,
