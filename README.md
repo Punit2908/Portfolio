@@ -52,6 +52,10 @@ Projects and client work can be delivered remotely across **Panipat, Kaithal, Ha
 
 🌐 **Website:** https://punitjangraportfolio.vercel.app/
 
+💼 **LinkedIn:** https://www.linkedin.com/in/iampunitjangra/
+
+📸 **Instagram:** https://www.instagram.com/punitjangra_/
+
 🐙 **GitHub:** https://github.com/Punit2908
 
 ---
