@@ -15,6 +15,10 @@ const DEFAULT_KEYWORDS = [
   "Punit Jangra web developer",
   "Punit Jangra MERN developer",
   "Punit Jangra portfolio",
+  "MERN Stack Developer in Panipat",
+  "MERN developer in Panipat",
+  "hire MERN Stack Developer Panipat",
+  "hire web developer Panipat",
   "MERN Stack Developer Panipat",
   "MERN Stack Developer Samalkha",
   "MERN Stack Developer Sonipat",
@@ -52,17 +56,15 @@ const DEFAULT_KEYWORDS = [
 function setMeta(name, content) {
   if (!content) return;
 
-  let element = document.head.querySelector(
-    `meta[name="${name}"][data-seo-managed="true"]`
-  );
+  let element = document.head.querySelector(`meta[name="${name}"]`);
 
   if (!element) {
     element = document.createElement("meta");
     element.name = name;
-    element.dataset.seoManaged = "true";
     document.head.appendChild(element);
   }
 
+  element.dataset.seoManaged = "true";
   element.content = content;
 }
 
@@ -70,31 +72,29 @@ function setProperty(property, content) {
   if (!content) return;
 
   let element = document.head.querySelector(
-    `meta[property="${property}"][data-seo-managed="true"]`
+    `meta[property="${property}"]`
   );
 
   if (!element) {
     element = document.createElement("meta");
     element.setAttribute("property", property);
-    element.dataset.seoManaged = "true";
     document.head.appendChild(element);
   }
 
+  element.dataset.seoManaged = "true";
   element.content = content;
 }
 
 function setLink(rel, href) {
-  let element = document.head.querySelector(
-    `link[rel="${rel}"][data-seo-managed="true"]`
-  );
+  let element = document.head.querySelector(`link[rel="${rel}"]`);
 
   if (!element) {
     element = document.createElement("link");
     element.rel = rel;
-    element.dataset.seoManaged = "true";
     document.head.appendChild(element);
   }
 
+  element.dataset.seoManaged = "true";
   element.href = href;
 }
 
@@ -113,8 +113,8 @@ function setJsonLd(data) {
 }
 
 export default function SEO({
-  title = "Punit Jangra | MERN Stack & Full Stack Developer in Panipat, Samalkha & Sonipat",
-  description = "Punit Jangra is a MERN Stack and full stack web developer from Haryana, India, specializing in React, JavaScript, Node.js, Express.js, MongoDB, REST APIs and modern web applications for Panipat, Samalkha, Sonipat and clients across India.",
+  title = "Punit Jangra | MERN Stack Developer in Panipat, Haryana",
+  description = "Punit Jangra is a MERN Stack Developer in Panipat, Haryana, building modern web applications with React, Node.js, Express.js and MongoDB. Explore projects, skills and hire him for freelance web development.",
   keywords = DEFAULT_KEYWORDS.join(", "),
   image = PROFILE_IMAGE,
   url = SITE_URL,
@@ -138,19 +138,27 @@ export default function SEO({
     setMeta("theme-color", "#09090b");
     setMeta("format-detection", "telephone=no");
 
+    // Local / geographic signals
+    setMeta("geo.region", "IN-HR");
+    setMeta("geo.placename", "Panipat, Haryana, India");
+    setMeta("geo.position", "29.3909;76.9635");
+    setMeta("ICBM", "29.3909, 76.9635");
+
     setLink("canonical", canonicalUrl);
 
     // Open Graph
-    setProperty("og:type", "website");
+    setProperty("og:type", "profile");
     setProperty("og:site_name", "Punit Jangra Portfolio");
     setProperty("og:locale", "en_IN");
     setProperty("og:url", canonicalUrl);
     setProperty("og:title", title);
     setProperty("og:description", description);
     setProperty("og:image", image);
+    setProperty("og:image:width", "500");
+    setProperty("og:image:height", "500");
     setProperty(
       "og:image:alt",
-      "Punit Jangra - MERN Stack and Full Stack Web Developer"
+      "Punit Jangra - MERN Stack Developer in Panipat, Haryana"
     );
 
     // X / Twitter
@@ -172,7 +180,7 @@ export default function SEO({
           url: SITE_URL + "/",
           name: "Punit Jangra Portfolio",
           description:
-            "Official portfolio of Punit Jangra, a MERN Stack and full stack web developer in Haryana, India.",
+            "Official portfolio of Punit Jangra, a MERN Stack Developer in Panipat, Haryana, India.",
           publisher: {
             "@id": personId,
           },
@@ -182,7 +190,7 @@ export default function SEO({
           "@type": "ProfilePage",
           "@id": `${SITE_URL}/#profile`,
           url: SITE_URL + "/",
-          name: "Punit Jangra | MERN Stack & Full Stack Developer",
+          name: "Punit Jangra | MERN Stack Developer in Panipat, Haryana",
           isPartOf: {
             "@id": websiteId,
           },
@@ -206,11 +214,13 @@ export default function SEO({
           ],
           url: SITE_URL + "/",
           image: image,
+          email: "mailto:punitjangra2742@gmail.com",
           jobTitle: "MERN Stack Developer & Full Stack Web Developer",
           description:
-            "Punit Jangra is a MERN Stack and full stack web developer in Haryana, India, specializing in React, JavaScript, Node.js, Express.js and MongoDB.",
+            "Punit Jangra is a MERN Stack and full stack web developer in Panipat, Haryana, India, specializing in React, JavaScript, Node.js, Express.js and MongoDB.",
           address: {
             "@type": "PostalAddress",
+            addressLocality: "Panipat",
             addressRegion: "Haryana",
             addressCountry: "IN",
           },
@@ -273,6 +283,86 @@ export default function SEO({
             SOCIAL_LINKS.linkedin,
             SOCIAL_LINKS.instagram,
           ],
+        },
+        {
+          "@type": "ProfessionalService",
+          "@id": `${SITE_URL}/#service`,
+          name: "Punit Jangra - MERN Stack Developer in Panipat",
+          description:
+            "Freelance MERN Stack and full stack web development services by Punit Jangra, serving Panipat, Samalkha, Sonipat, Kaithal and clients across Haryana and India.",
+          url: SITE_URL + "/",
+          image: image,
+          email: "mailto:punitjangra2742@gmail.com",
+          provider: {
+            "@id": personId,
+          },
+          founder: {
+            "@id": personId,
+          },
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Panipat",
+            addressRegion: "Haryana",
+            addressCountry: "IN",
+          },
+          areaServed: [
+            {
+              "@type": "City",
+              name: "Panipat",
+              containedInPlace: {
+                "@type": "State",
+                name: "Haryana",
+              },
+            },
+            { "@type": "City", name: "Samalkha" },
+            { "@type": "City", name: "Sonipat" },
+            { "@type": "City", name: "Kaithal" },
+            { "@type": "State", name: "Haryana" },
+            { "@type": "Country", name: "India" },
+          ],
+          knowsLanguage: ["en", "hi"],
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: "Web Development Services",
+            itemListElement: [
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "MERN Stack Development",
+                  description:
+                    "Full stack web applications built with MongoDB, Express.js, React and Node.js.",
+                },
+              },
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "React Frontend Development",
+                  description:
+                    "Fast, responsive and interactive user interfaces built with React.",
+                },
+              },
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "Node.js & Express API Development",
+                  description:
+                    "Backend services, REST APIs and server-side application logic.",
+                },
+              },
+              {
+                "@type": "Offer",
+                itemOffered: {
+                  "@type": "Service",
+                  name: "Website Development",
+                  description:
+                    "Modern, responsive business and portfolio websites.",
+                },
+              },
+            ],
+          },
         },
       ],
     });

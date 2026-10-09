@@ -51,6 +51,8 @@ function App() {
 
   return (
     <>
+      <SEO />
+
       <Navbar />
 
       <main>

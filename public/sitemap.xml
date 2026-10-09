@@ -5,12 +5,32 @@
 >
   <url>
     <loc>https://punitjangraportfolio.vercel.app/</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+
     <image:image>
       <image:loc>https://punitjangraportfolio.vercel.app/Profile-Pic.png</image:loc>
-      <image:title>Punit Jangra - MERN Stack and Full Stack Developer</image:title>
-      <image:caption>Professional profile photo of Punit Jangra, a MERN Stack and Full Stack Developer from Haryana, India.</image:caption>
+      <image:title>Punit Jangra - MERN Stack Developer in Panipat, Haryana</image:title>
+      <image:caption>Profile photo of Punit Jangra, a MERN Stack and Full Stack Developer from Panipat, Haryana, India.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://punitjangraportfolio.vercel.app/HartronKaithal.png</image:loc>
+      <image:title>Hartron Skill Center Kaithal website by Punit Jangra</image:title>
+      <image:caption>Institutional website built with React and Vite by Punit Jangra.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://punitjangraportfolio.vercel.app/MuryoAnime.png</image:loc>
+      <image:title>muryoAnime streaming platform by Punit Jangra</image:title>
+      <image:caption>Responsive anime discovery and streaming platform built by Punit Jangra.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://punitjangraportfolio.vercel.app/GalaxyPhotography.png</image:loc>
+      <image:title>Galaxy Photography website by Punit Jangra</image:title>
+      <image:caption>Photography studio and portfolio website built by Punit Jangra.</image:caption>
     </image:image>
   </url>
 </urlset>

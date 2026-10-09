@@ -327,7 +327,7 @@ function Navbar() {
               >
                 <motion.img
                   src="/Profile-Pic.png"
-                  alt="Punit"
+                  alt="Punit Jangra - MERN Stack Developer"
                   className="
                     absolute
                     left-0
@@ -656,7 +656,7 @@ function Navbar() {
 
                 <motion.img
                   src="/Profile-Pic.png"
-                  alt="Punit"
+                  alt="Punit Jangra - MERN Stack Developer"
                   initial={{
                     opacity: 0,
                     scale: 0.7,
